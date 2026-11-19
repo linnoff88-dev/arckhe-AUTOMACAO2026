@@ -1,0 +1,106 @@
+## Fluxo simples para classificar itens (ex: e-mails, tickets, leads, mensagens)
+
+### 1️⃣ Defina o objeto da classificação
+
+O que você vai classificar?
+
+* E-mails
+* Mensagens de WhatsApp / Telegram
+* Tickets de suporte
+* Leads
+* Documentos
+
+---
+
+### 2️⃣ Liste as categorias possíveis
+
+Mantenha poucas e bem definidas:
+
+* Suporte
+* Financeiro
+* Comercial
+* Prioridade
+* Promoção
+* Outros
+
+> Regra prática: se der para explicar cada categoria em 1 frase, está bom.
+
+---
+
+### 3️⃣ Decida o nível de automação
+
+Use este mini-fluxo:
+
+A classificação depende apenas de regras claras?
+
+* (ex: assunto contém “boleto”, “nota fiscal”)
+
+  * ✅ Sim → Automação simples (if/then)
+  * ❌ Não → precisa interpretar texto → usar IA
+
+---
+
+### 4️⃣ Fluxo recomendado com IA (AI Workflow)
+
+Este é o padrão mais usado e eficiente:
+
+1. Entrada
+
+   * Novo e-mail / mensagem / ticket
+
+2. Passo de IA – Classificação
+
+   * A IA lê:
+
+     * Assunto
+     * Corpo da mensagem
+     * Contexto
+   * Retorna:
+
+     * Categoria
+     * (opcional) nível de prioridade
+     * (opcional) confiança da classificação
+
+3. Decisão de rota
+
+   * Se categoria = Suporte → enviar para fila X
+   * Se categoria = Financeiro → enviar para fila Y
+   * Se categoria = Comercial → criar lead / CRM
+
+4. Ação final
+
+   * Notificar time
+   * Criar ticket
+   * Responder automaticamente
+   * Registrar no banco de dados
+
+📌 Importante:
+O caminho é fixo, só a decisão no meio usa IA → isso é um AI Workflow, não um agente.
+
+---
+
+### 5️⃣ Quando virar um AI Agent (opcional)
+
+Use um AI Agent apenas se:
+
+* A classificação exigir:
+
+  * Buscar dados extras
+  * Reavaliar a decisão
+  * Fazer múltiplas consultas
+* Ou se:
+
+  * A IA não tiver certeza
+  * Precisar pedir mais contexto
+  * Adaptar o fluxo dinamicamente
+
+Exemplo:
+
+> A mensagem pode ser suporte OU comercial dependendo do histórico do cliente.
+
+---
+
+## Resumo em uma frase
+
+👉 Classificar = Entrada → IA decide a categoria → fluxo fixo executa ações.
+Só use agentes se a decisão não puder ser feita em um único passo.

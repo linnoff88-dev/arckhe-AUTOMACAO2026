@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 2: Implementacao | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text {
+      background: linear-gradient(90deg, #CDDC39, #E040FB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .module-card { transition: all 0.3s ease; }
+    .module-card:hover { transform: translateY(-2px); }
+    /* Modal styles */
+    .modal-overlay { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(8px); }
+    .modal-overlay.active { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; }
+    .modal-container { background-color: #1f2937; width: 95%; max-width: 900px; max-height: 90vh; border-radius: 1rem; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid #374151; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-header h3 { font-size: 1.25rem; font-weight: 700; color: #3b82f6; }
+    .modal-close { width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; background: #374151; border-radius: 0.5rem; color: #9ca3af; font-size: 1.5rem; cursor: pointer; transition: all 0.2s; }
+    .modal-close:hover { background: #ef4444; color: white; }
+    .modal-body { flex: 1; overflow-y: auto; }
+    .modal-body iframe { width: 100%; height: 100%; min-height: 70vh; border: none; }
+    /* Light mode */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+    html:not(.dark) .modal-container { background-color: #ffffff; }
+    html:not(.dark) .modal-header { border-bottom-color: #e2e8f0; }
+    html:not(.dark) .topic-explanation.active { background-color: #eff6ff !important; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors">
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress Bar -->
+  <div class="bg-dark-800 border-b border-dark-700 py-3">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm text-neutral-400">Progresso da Trilha</span>
+        <span class="text-sm text-blue-400 font-semibold"><span id="progress-percent">0</span>% completo</span>
+      </div>
+      <div class="w-full bg-dark-600 rounded-full h-2">
+        <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-blue-400 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <div class="text-xs text-neutral-500 mt-1"><span id="modules-completed">0</span>/5 modulos completos</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <section class="py-12 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold mb-4">TRILHA 2 - INTERMEDIARIO</span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Implementacao</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">Construa AI Workflows completos: classificacao inteligente, roteamento automatizado e otimizacao de fluxos.</p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="max-w-4xl mx-auto px-4 mb-12">
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">5</div>
+        <div class="text-xs text-neutral-400">Modulos</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">AI</div>
+        <div class="text-xs text-neutral-400">Workflows</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">40+</div>
+        <div class="text-xs text-neutral-400">Topicos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modules -->
+  <main class="max-w-4xl mx-auto px-4 pb-20">
+
+    <!-- Modulo 2.1 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">2.1</div>
+          <div>
+            <h3 class="text-xl font-bold text-neutral-100">AI Workflows: Conceitos e Arquitetura</h3>
+            <p class="text-neutral-400 text-sm mt-1">Fluxos com ordem fixa e decisoes inteligentes</p>
+          </div>
+        </div>
+
+        <ul class="space-y-2 mb-6">
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⚙️</span> O que sao AI Workflows</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Fluxos com ORDEM FIXA de passos, mas que usam IA em pontos especificos para classificar ou tomar decisoes.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Equilibrio perfeito entre previsibilidade e inteligencia.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Caminho fixo, decisoes inteligentes, orquestracao.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔄</span> Diferenca entre Workflow e Agent</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Workflow tem caminho fixo; Agent decide o proximo passo sozinho.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Escolher errado gera complexidade desnecessaria ou solucao inadequada.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Orquestracao vs autonomia, controle vs flexibilidade.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📊</span> Estrutura: Entrada → IA → Decisao → Acao</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> A estrutura padrao de todo AI Workflow em 4 etapas.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Seguir essa estrutura garante workflows previsiveis e mantenveis.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Trigger, passo de IA, roteamento, acao final.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🎯</span> Quando usar AI Workflows</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Cenarios ideais: ordem previsivel mas com necessidade de interpretacao de texto.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Mais poderoso que automacao simples, mais controlado que agents.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Classificacao, extracao, roteamento inteligente.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🛠️</span> Ferramentas para AI Workflows</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Make, n8n, Zapier com integracao de LLMs, Langchain.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Cada ferramenta tem vantagens para diferentes casos de uso.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> No-code vs code, custos, integracao com APIs.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">💰</span> Custos e consideracoes</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Custo por execucao, tokens consumidos, manutencao.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Entender custos evita surpresas e permite otimizacao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Custo por token, volume de execucoes, ROI.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📋</span> Exemplos praticos</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Classificador de e-mails, roteador de tickets, extrator de dados.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Ver exemplos reais ajuda a identificar oportunidades.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Casos de uso, padroes comuns, implementacao.</p>
+            </div>
+          </li>
+          <li class="topic-item pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⚠️</span> Erros comuns e como evitar</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Over-engineering, prompts vagos, falta de fallbacks.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Aprender com erros comuns acelera sua curva de aprendizado.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Boas praticas, debugging, iteracao.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 pt-4 border-t border-dark-700">
+          <button onclick="openModal('1')" class="flex-1 px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-2-1.html" class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 2.2 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">2.2</div>
+          <div>
+            <h3 class="text-xl font-bold text-neutral-100">Classificacao Inteligente</h3>
+            <p class="text-neutral-400 text-sm mt-1">Como usar IA para categorizar e-mails, tickets e mensagens</p>
+          </div>
+        </div>
+
+        <ul class="space-y-2 mb-6">
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🏷️</span> O que e classificacao com IA</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Usar IA para ler e categorizar automaticamente textos em categorias pre-definidas.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> A IA consegue interpretar contexto, algo dificil com regras fixas.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Categorias, contexto, interpretacao semantica.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📧</span> Tipos de conteudo classificavel</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> E-mails, tickets, mensagens, leads, documentos, feedbacks.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Qualquer texto nao-estruturado pode ser classificado.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Dados nao-estruturados, texto livre, NLP.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📝</span> Definindo categorias eficazes</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Regra: "Se der pra explicar em 1 frase, esta bom".</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Categorias claras = resultados mais precisos.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Mutuamente exclusivas, exaustivas, acionaveis.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🎯</span> Niveis de confianca</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Pedir para a IA retornar um score de confianca (0-100%).</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Permite criar fallbacks quando a IA nao tem certeza.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Threshold, escalacao humana, incerteza.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📊</span> Retorno estruturado (JSON)</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Pedir resposta em formato JSON: {categoria, prioridade, confianca}.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Facilita integracao com o restante do workflow.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> JSON, parsing, estrutura de dados.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⚡</span> Prompts de classificacao</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Como escrever prompts eficazes para classificacao.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> O prompt e o coracao do sistema de classificacao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Few-shot, definicoes claras, exemplos.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔧</span> Regras vs IA: quando usar cada</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Regras para casos obvios, IA para casos ambiguos.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Combinar os dois reduz custos e melhora precisao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Pre-processamento, hibrido, otimizacao.</p>
+            </div>
+          </li>
+          <li class="topic-item pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📈</span> Medindo e melhorando precisao</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Como medir taxa de acerto e iterar para melhorar.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Classificacao precisa de ajuste continuo.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Metricas, feedback loop, A/B testing.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 pt-4 border-t border-dark-700">
+          <button onclick="openModal('2')" class="flex-1 px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-2-2.html" class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 2.3 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">2.3</div>
+          <div>
+            <h3 class="text-xl font-bold text-neutral-100">Construindo seu Primeiro AI Workflow</h3>
+            <p class="text-neutral-400 text-sm mt-1">Passo a passo pratico: do trigger a acao final</p>
+          </div>
+        </div>
+
+        <ul class="space-y-2 mb-6">
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🎯</span> Definindo o objetivo do workflow</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Antes de construir, defina claramente o que o workflow deve fazer.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Objetivo claro = workflow focado e eficiente.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Escopo, criterios de sucesso, limitacoes.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⚡</span> Configurando o trigger</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> O evento que inicia o workflow: novo email, webhook, horario.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> O trigger certo garante que o workflow roda no momento certo.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Webhooks, polling, eventos, schedulers.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🤖</span> Integrando a chamada de IA</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Conectar seu workflow a uma API de LLM (OpenAI, Claude, etc).</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> A IA e o cerebro do workflow, onde as decisoes sao tomadas.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> API keys, modelos, temperatura, tokens.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📝</span> Escrevendo o prompt de classificacao</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> O prompt que instrui a IA sobre como classificar.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Prompt bem escrito = classificacao precisa.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Instrucoes claras, exemplos, formato de saida.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔀</span> Criando as rotas condicionais</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Branches baseados na resposta da IA: se X, faz A; se Y, faz B.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> O roteamento transforma a decisao da IA em acao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Switch/case, condicoes, branches paralelos.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">✅</span> Configurando as acoes finais</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> O que acontece no final: criar ticket, notificar, responder.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> A acao final e o valor entregue pelo workflow.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Integracoes, APIs, notificacoes, bancos de dados.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🧪</span> Testando e validando</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Rodar testes com casos reais antes de colocar em producao.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Testes evitam problemas em producao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Casos de teste, edge cases, debugging.</p>
+            </div>
+          </li>
+          <li class="topic-item pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🚀</span> Deploy e monitoramento inicial</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Colocar em producao e monitorar os primeiros dias.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Os primeiros dias revelam ajustes necessarios.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Logs, alertas, metricas, iteracao.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 pt-4 border-t border-dark-700">
+          <button onclick="openModal('3')" class="flex-1 px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-2-3.html" class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 2.4 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">2.4</div>
+          <div>
+            <h3 class="text-xl font-bold text-neutral-100">Roteamento e Acoes Automatizadas</h3>
+            <p class="text-neutral-400 text-sm mt-1">Direcione para filas, crie tickets e responda automaticamente</p>
+          </div>
+        </div>
+
+        <ul class="space-y-2 mb-6">
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔀</span> Roteamento por categoria</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Direcionar para filas diferentes baseado na categoria classificada.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Cada categoria pode ter tratamento especifico.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Filas, equipes, especializacao.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🚨</span> Roteamento por prioridade</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Casos urgentes vao para fila prioritaria ou notificacao imediata.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Prioridade garante atendimento rapido quando necessario.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> SLA, urgencia, notificacoes push.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📊</span> Roteamento por confianca</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Se confianca baixa, escala para humano revisar.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Evita erros quando a IA nao tem certeza.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Threshold, escalacao, revisao humana.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🎫</span> Criacao automatica de tickets</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Criar tickets automaticamente no sistema de suporte.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Elimina trabalho manual de triagem.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Integracao com Zendesk, Freshdesk, Jira, etc.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📧</span> Respostas automaticas</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Enviar respostas automaticas baseadas na classificacao.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Resposta imediata melhora experiencia do cliente.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Templates, personalizacao, confirmacao.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔔</span> Notificacoes inteligentes</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Notificar pessoas certas no momento certo via Slack, email, SMS.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Notificacao certa evita ruido e garante acao rapida.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Canais, mencoes, grupos, horarios.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⚠️</span> Tratamento de excecoes</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> O que fazer quando algo da errado: erros de API, timeout.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Workflows robustos precisam de tratamento de erros.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Try/catch, retries, fallbacks, alertas.</p>
+            </div>
+          </li>
+          <li class="topic-item pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">👤</span> Escalacao humana</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Quando e como passar para um humano revisar/decidir.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Sempre tenha um plano B para casos complexos.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Criterios de escalacao, filas de revisao.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 pt-4 border-t border-dark-700">
+          <button onclick="openModal('4')" class="flex-1 px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-2-4.html" class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 2.5 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">2.5</div>
+          <div>
+            <h3 class="text-xl font-bold text-neutral-100">Otimizacao e Monitoramento</h3>
+            <p class="text-neutral-400 text-sm mt-1">Metricas, ajuste fino e manutencao de workflows</p>
+          </div>
+        </div>
+
+        <ul class="space-y-2 mb-6">
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📊</span> Metricas essenciais</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Taxa de acerto, tempo de processamento, custo, escalacao.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Voce nao pode melhorar o que nao mede.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> KPIs, dashboards, benchmarks.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📈</span> Taxa de acerto e como melhorar</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Porcentagem de classificacoes corretas.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> E a metrica mais importante de qualidade.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Confusion matrix, falsos positivos/negativos.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">⏱️</span> Tempo de processamento</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Quanto tempo leva do trigger ate a acao final.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Latencia afeta experiencia do usuario e SLAs.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Latencia, gargalos, otimizacao.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">💰</span> Custo por execucao</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Quanto custa cada execucao do workflow (tokens + infra).</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Custos podem escalar rapidamente com volume.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> ROI, break-even, otimizacao de custos.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">📝</span> Ajuste fino de prompts</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Iterar no prompt para melhorar precisao e reduzir erros.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Pequenos ajustes no prompt fazem grande diferenca.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Iteracao, exemplos, edge cases.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🧪</span> A/B testing de prompts</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Testar duas versoes de prompt e comparar resultados.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Decisoes baseadas em dados, nao intuicao.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Experimentos, significancia estatistica.</p>
+            </div>
+          </li>
+          <li class="topic-item border-b border-dark-700 pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔍</span> Logs e debugging</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Registrar inputs, outputs e erros para analise.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Logs sao essenciais para encontrar e corrigir problemas.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> Logging estruturado, traces, debugging.</p>
+            </div>
+          </li>
+          <li class="topic-item pb-2">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between text-left py-2 hover:text-blue-400 transition-colors">
+              <span class="flex items-center gap-2"><span class="text-blue-400">🔄</span> Ciclo de melhoria continua</span>
+              <svg class="w-4 h-4 text-neutral-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 p-4 bg-blue-900/20 rounded-lg text-sm">
+              <p class="mb-2"><strong class="text-blue-400">O que e:</strong> Processo continuo de medir, analisar, ajustar, repetir.</p>
+              <p class="mb-2"><strong class="text-blue-400">Por que:</strong> Workflows precisam de manutencao constante.</p>
+              <p><strong class="text-blue-400">Conceitos:</strong> PDCA, feedback loops, evolucao.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 pt-4 border-t border-dark-700">
+          <button onclick="openModal('5')" class="flex-1 px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-2-5.html" class="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-700">
+      <a href="../trilha1-fundamentos/index.html" class="flex items-center text-emerald-400 hover:text-emerald-300 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        Trilha Anterior: Fundamentos
+      </a>
+      <a href="../trilha3-maestria/index.html" class="flex items-center px-6 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors">
+        Proxima Trilha: Maestria
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="module-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title">Carregando...</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="modal-iframe" src=""></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Trilha 2: Implementacao</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      themeToggleDarkIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.add('dark');
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // Toggle topic explanation
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const icon = button.querySelector('svg');
+
+      const moduleCard = button.closest('.module-card');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+          exp.closest('.topic-item').querySelector('button svg').classList.remove('rotate-180');
+        }
+      });
+
+      explanation.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+    }
+
+    // Modal functions
+    const moduleTitles = {
+      '1': 'AI Workflows: Conceitos e Arquitetura',
+      '2': 'Classificacao Inteligente',
+      '3': 'Construindo seu Primeiro AI Workflow',
+      '4': 'Roteamento e Acoes Automatizadas',
+      '5': 'Otimizacao e Monitoramento'
+    };
+
+    function openModal(moduleNum) {
+      const modal = document.getElementById('module-modal');
+      const iframe = document.getElementById('modal-iframe');
+      const title = document.getElementById('modal-title');
+
+      title.textContent = 'Modulo 2.' + moduleNum + ': ' + moduleTitles[moduleNum];
+      iframe.src = 'modulo-2-' + moduleNum + '.html';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('module-modal');
+      const iframe = document.getElementById('modal-iframe');
+      modal.classList.remove('active');
+      iframe.src = '';
+      document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('module-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

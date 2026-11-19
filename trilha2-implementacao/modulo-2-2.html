@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 2.2: Classificacao Inteligente | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+    pre { background: #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; }
+    code { font-family: 'Monaco', 'Consolas', monospace; font-size: 0.875rem; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-blue-400 font-semibold text-sm">2.2</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 2.2 - IMPLEMENTACAO
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Classificacao Inteligente</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Como usar IA para categorizar e-mails, tickets e mensagens de forma automatica e precisa
+      </p>
+    </div>
+
+    <!-- Imagem Principal -->
+    <section class="mb-12">
+      <div class="rounded-2xl overflow-hidden border border-dark-600">
+        <img src="../assets/images/como-classificar.png" alt="Como classificar com IA" class="w-full h-auto">
+      </div>
+      <p class="text-center text-neutral-500 text-sm mt-3">Fluxo de classificacao: da entrada ao roteamento inteligente</p>
+    </section>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">JSON</div>
+        <div class="text-xs text-neutral-400">Saida Estruturada</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">95%+</div>
+        <div class="text-xs text-neutral-400">Precisao Possivel</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">3</div>
+        <div class="text-xs text-neutral-400">Elementos-chave</div>
+      </div>
+    </div>
+
+    <!-- O que e Classificacao -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl p-8 border border-blue-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🏷️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-blue-400">O que e Classificacao com IA?</h2>
+            <p class="text-neutral-400">O coracao de todo AI Workflow</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          Classificacao e o ato de usar IA para <strong class="text-blue-400">ler um texto e categoriza-lo automaticamente</strong> em categorias pre-definidas. A IA consegue interpretar contexto, sentimento e intencao - algo impossivel com regras simples de if/then.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-4 text-center">
+            <span class="text-3xl mb-2 block">📧</span>
+            <h4 class="font-bold text-blue-400">E-mails</h4>
+            <p class="text-neutral-400 text-sm">Suporte, vendas, spam</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-4 text-center">
+            <span class="text-3xl mb-2 block">🎫</span>
+            <h4 class="font-bold text-purple-400">Tickets</h4>
+            <p class="text-neutral-400 text-sm">Bug, feature, duvida</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-4 text-center">
+            <span class="text-3xl mb-2 block">💬</span>
+            <h4 class="font-bold text-emerald-400">Mensagens</h4>
+            <p class="text-neutral-400 text-sm">Leads, reclamacoes, elogios</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <blockquote class="border-l-4 border-blue-500 pl-4 italic text-neutral-300">
+            "A classificacao e o passo mais importante de um AI Workflow. Se a classificacao estiver errada, todo o resto do fluxo sera impactado."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Os 3 Elementos -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🎯</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Os 3 Elementos da Classificacao</h2>
+            <p class="text-neutral-400">O que toda classificacao deve retornar</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">1</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-blue-400 mb-2">Categoria</h3>
+              <p class="text-neutral-300 mb-3">A classificacao principal. Em qual "caixa" este item se encaixa?</p>
+              <div class="bg-dark-800 rounded-lg p-3">
+                <code class="text-emerald-400">"categoria": "suporte_tecnico"</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">2</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-purple-400 mb-2">Prioridade</h3>
+              <p class="text-neutral-300 mb-3">Qual a urgencia? Permite tratamento diferenciado por importancia.</p>
+              <div class="bg-dark-800 rounded-lg p-3">
+                <code class="text-emerald-400">"prioridade": "alta"</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-yellow-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">3</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-yellow-400 mb-2">Confianca</h3>
+              <p class="text-neutral-300 mb-3">Qual a certeza da IA? Permite criar fallbacks quando incerto.</p>
+              <div class="bg-dark-800 rounded-lg p-3">
+                <code class="text-emerald-400">"confianca": 0.92</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Definindo Categorias -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📝</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Definindo Categorias Eficazes</h2>
+            <p class="text-neutral-400">A regra de ouro das categorias</p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 rounded-xl p-6 mb-6 border border-yellow-500/30">
+          <p class="text-2xl font-bold text-center text-yellow-400 mb-2">
+            "Se der pra explicar em 1 frase, esta bom."
+          </p>
+          <p class="text-neutral-300 text-center">
+            Categorias claras e especificas geram classificacoes mais precisas.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <h4 class="font-bold text-emerald-400 flex items-center">
+              <span class="mr-2">✓</span> Boas categorias:
+            </h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                <strong class="text-emerald-400">Mutuamente exclusivas</strong> - um item so pode estar em uma categoria
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                <strong class="text-emerald-400">Exaustivas</strong> - cobrem todos os casos possiveis (inclua "outros")
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                <strong class="text-emerald-400">Acionaveis</strong> - cada categoria leva a uma acao diferente
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                <strong class="text-emerald-400">Claras</strong> - qualquer pessoa entende a diferenca
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-4">
+            <h4 class="font-bold text-red-400 flex items-center">
+              <span class="mr-2">✗</span> Categorias problematicas:
+            </h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                <strong class="text-red-400">Sobrepostas</strong> - "urgente" e "importante" podem ser a mesma coisa
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                <strong class="text-red-400">Vagas</strong> - "outros assuntos" muito generico
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                <strong class="text-red-400">Demais categorias</strong> - mais de 8-10 dificulta precisao
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                <strong class="text-red-400">Sem acao</strong> - se nao muda nada, pra que classificar?
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exemplo de Prompt -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚡</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Prompt de Classificacao</h2>
+            <p class="text-neutral-400">Exemplo pratico pronto para usar</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-6 mb-6 overflow-x-auto">
+          <pre class="text-sm"><code class="text-neutral-300">Voce e um classificador de e-mails de suporte.
+
+Analise o e-mail abaixo e classifique em UMA das categorias:
+- <span class="text-blue-400">suporte_tecnico</span>: problemas com o produto, bugs, erros
+- <span class="text-purple-400">comercial</span>: duvidas sobre precos, planos, upgrade
+- <span class="text-emerald-400">financeiro</span>: cobrancas, faturas, reembolsos
+- <span class="text-yellow-400">cancelamento</span>: pedidos de cancelamento
+- <span class="text-red-400">reclamacao</span>: insatisfacao, feedback negativo
+- <span class="text-neutral-400">outros</span>: nao se encaixa nas categorias acima
+
+Determine tambem:
+- <span class="text-orange-400">prioridade</span>: alta, media ou baixa
+- <span class="text-pink-400">confianca</span>: 0.0 a 1.0 (sua certeza na classificacao)
+
+Responda APENAS em JSON valido:
+{
+  "categoria": "string",
+  "prioridade": "string",
+  "confianca": number,
+  "justificativa": "string breve"
+}
+
+E-MAIL:
+"""
+{{email_content}}
+"""</code></pre>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/30">
+            <h4 class="font-bold text-emerald-400 mb-2">Por que funciona:</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Define o papel claramente</li>
+              <li>• Lista categorias com descricao</li>
+              <li>• Pede formato estruturado (JSON)</li>
+              <li>• Inclui confianca para fallbacks</li>
+            </ul>
+          </div>
+          <div class="bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
+            <h4 class="font-bold text-blue-400 mb-2">Dicas extras:</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Adicione exemplos (few-shot) para melhor precisao</li>
+              <li>• Use temperature baixa (0.1-0.3)</li>
+              <li>• Teste com casos reais antes de produzir</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Niveis de Confianca -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📊</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Usando Niveis de Confianca</h2>
+            <p class="text-neutral-400">Crie fallbacks inteligentes</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div class="flex items-center bg-emerald-900/20 p-4 rounded-xl border border-emerald-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-emerald-400">90%+</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-emerald-400">Alta Confianca</h4>
+              <p class="text-neutral-300 text-sm">Processa automaticamente. A IA tem certeza da classificacao.</p>
+            </div>
+          </div>
+
+          <div class="flex items-center bg-yellow-900/20 p-4 rounded-xl border border-yellow-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-yellow-400">70-89%</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-yellow-400">Media Confianca</h4>
+              <p class="text-neutral-300 text-sm">Processa mas marca para revisao posterior. Monitore esses casos.</p>
+            </div>
+          </div>
+
+          <div class="flex items-center bg-red-900/20 p-4 rounded-xl border border-red-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-red-400">&lt;70%</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-red-400">Baixa Confianca</h4>
+              <p class="text-neutral-300 text-sm">Escala para humano revisar. A IA nao tem certeza suficiente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
+          <p class="text-blue-400 font-semibold mb-1">Dica importante:</p>
+          <p class="text-neutral-300 text-sm">Ajuste os thresholds baseado no seu caso. Para casos criticos (ex: deteccao de fraude), use threshold mais alto. Para triagem inicial, pode ser mais flexivel.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Regras vs IA -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🔧</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Regras vs IA: Quando Usar Cada</h2>
+            <p class="text-neutral-400">Otimize custos combinando os dois</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <p class="text-lg text-neutral-300 mb-4">
+            <strong class="text-blue-400">Estrategia hibrida:</strong> Use regras simples para casos obvios primeiro, e so chame a IA para casos ambiguos. Isso reduz custos drasticamente.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 text-lg">
+            <span class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-lg font-semibold">Regras Primeiro</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-lg font-semibold">Caso Obvio?</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-lg font-semibold">Nao → Chama IA</span>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-emerald-900/10 p-5 rounded-xl border border-emerald-500/20">
+            <h4 class="font-bold text-emerald-400 mb-3">Use REGRAS quando:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Email contem "unsubscribe" → Spam</li>
+              <li>• Assunto contem "fatura" → Financeiro</li>
+              <li>• Remetente e @empresa.com → Interno</li>
+              <li>• Palavras-chave obvias presentes</li>
+            </ul>
+          </div>
+
+          <div class="bg-blue-900/10 p-5 rounded-xl border border-blue-500/20">
+            <h4 class="font-bold text-blue-400 mb-3">Use IA quando:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Contexto e necessario para entender</li>
+              <li>• Linguagem natural varia muito</li>
+              <li>• Multiplas interpretacoes possiveis</li>
+              <li>• Sentimento/tom importa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Medindo Precisao -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📈</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Medindo e Melhorando Precisao</h2>
+            <p class="text-neutral-400">Iteracao continua e essencial</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-blue-400 mb-3">Metricas-chave:</h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span><strong>Taxa de acerto:</strong> % classificacoes corretas</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span><strong>Falsos positivos:</strong> classificou errado como X</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span><strong>Falsos negativos:</strong> deveria ser X mas nao foi</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span><strong>Taxa de escalacao:</strong> % enviado para humano</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-purple-400 mb-3">Como melhorar:</h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">1.</span>
+                <span>Analise os erros mais frequentes</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">2.</span>
+                <span>Adicione exemplos desses casos no prompt</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">3.</span>
+                <span>Ajuste as definicoes das categorias</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">4.</span>
+                <span>Considere criar subcategorias</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-yellow-900/20 rounded-xl p-4 border border-yellow-500/30">
+          <p class="text-yellow-400 font-semibold mb-1">Ciclo de melhoria:</p>
+          <p class="text-neutral-300 text-sm">Classificacao → Mede resultados → Identifica erros → Ajusta prompt → Testa novamente → Repete. Espere gastar 70% do tempo em ajustes, nao na implementacao inicial.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exemplo de Saida JSON -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📋</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Exemplo de Saida Completa</h2>
+            <p class="text-neutral-400">O que esperar da IA</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-6 overflow-x-auto">
+          <pre class="text-sm"><code class="text-neutral-300">{
+  <span class="text-blue-400">"categoria"</span>: <span class="text-emerald-400">"suporte_tecnico"</span>,
+  <span class="text-blue-400">"prioridade"</span>: <span class="text-yellow-400">"alta"</span>,
+  <span class="text-blue-400">"confianca"</span>: <span class="text-purple-400">0.94</span>,
+  <span class="text-blue-400">"justificativa"</span>: <span class="text-neutral-400">"Cliente relata erro ao fazer login,
+                     menciona codigo de erro 500"</span>,
+  <span class="text-blue-400">"dados_extraidos"</span>: {
+    <span class="text-blue-400">"codigo_erro"</span>: <span class="text-emerald-400">"500"</span>,
+    <span class="text-blue-400">"funcionalidade"</span>: <span class="text-emerald-400">"login"</span>,
+    <span class="text-blue-400">"sentimento"</span>: <span class="text-red-400">"frustrado"</span>
+  }
+}</code></pre>
+        </div>
+
+        <div class="mt-6 grid md:grid-cols-2 gap-4">
+          <div class="bg-emerald-900/20 p-4 rounded-xl border border-emerald-500/30">
+            <p class="text-emerald-400 font-semibold mb-2">Bonus: Dados extraidos</p>
+            <p class="text-neutral-300 text-sm">Alem de classificar, a IA pode extrair dados uteis do texto que serao usados nas acoes seguintes do workflow.</p>
+          </div>
+          <div class="bg-blue-900/20 p-4 rounded-xl border border-blue-500/30">
+            <p class="text-blue-400 font-semibold mb-2">Justificativa</p>
+            <p class="text-neutral-300 text-sm">Pedir justificativa ajuda no debugging e permite revisao humana mais rapida quando necessario.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Classificacao = Categoria + Prioridade + Confianca</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Categorias devem ser mutuamente exclusivas, exaustivas e acionaveis</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Use confianca para criar fallbacks (escalar para humano quando baixa)</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Combine regras simples + IA para otimizar custos</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Meca, ajuste, repita - iteracao e a chave</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Hora de construir seu primeiro workflow completo!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="modulo-2-1.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Anterior: AI Workflows
+      </a>
+      <a href="modulo-2-3.html" class="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+        Proximo: Construindo
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 2.2: Classificacao Inteligente</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

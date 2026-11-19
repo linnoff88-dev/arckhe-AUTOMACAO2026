@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 2.4: Roteamento e Acoes Automatizadas | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+    pre { background: #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; }
+    code { font-family: 'Monaco', 'Consolas', monospace; font-size: 0.875rem; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-blue-400 font-semibold text-sm">2.4</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 2.4 - IMPLEMENTACAO
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Roteamento e Acoes Automatizadas</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Direcione para filas, crie tickets, responda automaticamente e escale para humanos
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">3</div>
+        <div class="text-xs text-neutral-400">Tipos de Roteamento</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">5+</div>
+        <div class="text-xs text-neutral-400">Acoes Automaticas</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">100%</div>
+        <div class="text-xs text-neutral-400">Pratico</div>
+      </div>
+    </div>
+
+    <!-- Tipos de Roteamento -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl p-8 border border-blue-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🔀</span>
+          <div>
+            <h2 class="text-2xl font-bold text-blue-400">Tipos de Roteamento</h2>
+            <p class="text-neutral-400">Diferentes criterios para direcionar o fluxo</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          Apos a IA classificar, voce precisa decidir para onde enviar cada item. Existem <strong class="text-blue-400">tres tipos principais</strong> de roteamento que podem ser combinados para criar fluxos inteligentes.
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-dark-700/50 rounded-xl p-5 border-l-4 border-blue-500">
+            <h4 class="font-bold text-blue-400 mb-2">1. Roteamento por Categoria</h4>
+            <p class="text-neutral-300 text-sm">Cada categoria vai para uma fila diferente. Suporte tecnico vai para dev, comercial vai para vendas, etc.</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-5 border-l-4 border-red-500">
+            <h4 class="font-bold text-red-400 mb-2">2. Roteamento por Prioridade</h4>
+            <p class="text-neutral-300 text-sm">Casos urgentes vao para fila prioritaria com notificacao imediata. Atende SLAs criticos.</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-5 border-l-4 border-yellow-500">
+            <h4 class="font-bold text-yellow-400 mb-2">3. Roteamento por Confianca</h4>
+            <p class="text-neutral-300 text-sm">Quando a IA tem baixa confianca, escala para revisao humana antes de processar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roteamento por Categoria -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🏷️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Roteamento por Categoria</h2>
+            <p class="text-neutral-400">Direcionando para equipes especializadas</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-blue-400 mb-4">Estrutura tipica:</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">suporte_tecnico</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-blue-400">#suporte-dev</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">comercial</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-purple-400">#vendas</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">financeiro</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-emerald-400">#financeiro</span>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">cancelamento</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-red-400">#retencao</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">reclamacao</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-red-400">#retencao</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="w-32 text-neutral-400">outros</span>
+                <span class="text-neutral-500 mx-2">→</span>
+                <span class="text-neutral-400">#geral</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/30">
+          <p class="text-emerald-400 font-semibold mb-1">Beneficio:</p>
+          <p class="text-neutral-300 text-sm">Cada equipe recebe apenas o que e relevante para ela. Menos ruido, mais foco, resposta mais rapida.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roteamento por Prioridade -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🚨</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Roteamento por Prioridade</h2>
+            <p class="text-neutral-400">Tratamento diferenciado por urgencia</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div class="flex items-center bg-red-900/20 p-4 rounded-xl border border-red-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-red-400">ALTA</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-red-400">Acao imediata</h4>
+              <p class="text-neutral-300 text-sm">Notificacao push, mencao @here no Slack, SMS para plantao, ticket com SLA de 1h</p>
+            </div>
+          </div>
+
+          <div class="flex items-center bg-yellow-900/20 p-4 rounded-xl border border-yellow-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-yellow-400">MEDIA</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-yellow-400">Processamento normal</h4>
+              <p class="text-neutral-300 text-sm">Notificacao normal no canal, ticket com SLA de 4h, sem interrupcoes</p>
+            </div>
+          </div>
+
+          <div class="flex items-center bg-emerald-900/20 p-4 rounded-xl border border-emerald-500/30">
+            <div class="w-20 text-center mr-4">
+              <span class="text-2xl font-bold text-emerald-400">BAIXA</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-emerald-400">Fila padrao</h4>
+              <p class="text-neutral-300 text-sm">Adicionado a fila normal, ticket com SLA de 24h, processado em horario comercial</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-5">
+          <h4 class="font-bold text-neutral-200 mb-3">Exemplo de logica combinada:</h4>
+          <pre class="text-sm"><code class="text-neutral-300"><span class="text-purple-400">if</span> (prioridade === <span class="text-emerald-400">"alta"</span>) {
+  <span class="text-neutral-500">// Notificar imediatamente</span>
+  slack.send({ channel: categoria, mention: <span class="text-emerald-400">"@here"</span> });
+  sms.send({ to: plantao, message: resumo });
+} <span class="text-purple-400">else</span> {
+  <span class="text-neutral-500">// Notificar normalmente</span>
+  slack.send({ channel: categoria });
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roteamento por Confianca -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📊</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Roteamento por Confianca</h2>
+            <p class="text-neutral-400">Human-in-the-loop quando necessario</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-yellow-400 mb-4">Fluxo de decisao:</h4>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <span class="bg-purple-500/20 text-purple-400 px-3 py-2 rounded-lg text-sm">IA retorna confianca</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-2 rounded-lg text-sm">Verifica threshold</span>
+            <span class="text-neutral-500">→</span>
+            <div class="flex flex-col gap-2">
+              <span class="bg-emerald-500/20 text-emerald-400 px-3 py-2 rounded-lg text-sm">≥70% → Automatico</span>
+              <span class="bg-red-500/20 text-red-400 px-3 py-2 rounded-lg text-sm">&lt;70% → Humano revisa</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-emerald-900/10 p-4 rounded-xl border border-emerald-500/20">
+            <h4 class="font-bold text-emerald-400 mb-2">Confianca alta (≥70%)</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Processa automaticamente</li>
+              <li>• Roteia para fila correta</li>
+              <li>• Executa acoes configuradas</li>
+              <li>• Registra para auditoria</li>
+            </ul>
+          </div>
+          <div class="bg-red-900/10 p-4 rounded-xl border border-red-500/20">
+            <h4 class="font-bold text-red-400 mb-2">Confianca baixa (&lt;70%)</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Envia para fila de revisao</li>
+              <li>• Humano valida/corrige</li>
+              <li>• Aprende com correcoes</li>
+              <li>• Melhora prompt futuro</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
+          <p class="text-blue-400 font-semibold mb-1">Por que isso e importante?</p>
+          <p class="text-neutral-300 text-sm">Casos ambiguos classificados erroneamente podem causar problemas serios. Melhor escalar para humano do que errar automaticamente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acoes Automatizadas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚡</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Acoes Automatizadas</h2>
+            <p class="text-neutral-400">O que fazer apos rotear</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">🎫</span>
+              <h4 class="font-bold text-blue-400">Criar Ticket</h4>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Crie tickets automaticamente no seu sistema de suporte com todos os dados ja preenchidos.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Zendesk</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Freshdesk</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Jira</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Linear</span>
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">🔔</span>
+              <h4 class="font-bold text-purple-400">Notificar</h4>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Envie notificacoes para as pessoas certas nos canais certos.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Slack</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Teams</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Discord</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Email</span>
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">📧</span>
+              <h4 class="font-bold text-emerald-400">Resposta Automatica</h4>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Envie uma resposta inicial ao cliente confirmando recebimento e prazo estimado.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Gmail</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">SendGrid</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Mailgun</span>
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">📊</span>
+              <h4 class="font-bold text-yellow-400">Registrar Dados</h4>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Salve em planilha ou banco de dados para analise posterior e metricas.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Google Sheets</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Airtable</span>
+              <span class="bg-dark-600 text-neutral-400 px-2 py-1 rounded text-xs">Notion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tratamento de Erros -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚠️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Tratamento de Erros e Excecoes</h2>
+            <p class="text-neutral-400">O que fazer quando algo da errado</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+            <h4 class="font-bold text-red-400 mb-2">Erro na API de IA</h4>
+            <p class="text-neutral-300 text-sm mb-2">Rate limit, timeout, erro 500</p>
+            <div class="bg-dark-800/50 p-3 rounded-lg">
+              <p class="text-neutral-400 text-sm"><strong>Solucao:</strong> Retry com backoff exponencial (3x), depois fallback para fila manual</p>
+            </div>
+          </div>
+
+          <div class="bg-yellow-900/10 p-5 rounded-xl border border-yellow-500/20">
+            <h4 class="font-bold text-yellow-400 mb-2">JSON Invalido</h4>
+            <p class="text-neutral-300 text-sm mb-2">IA retornou resposta mal formatada</p>
+            <div class="bg-dark-800/50 p-3 rounded-lg">
+              <p class="text-neutral-400 text-sm"><strong>Solucao:</strong> Tentar parsear com regex, ou enviar para revisao humana</p>
+            </div>
+          </div>
+
+          <div class="bg-blue-900/10 p-5 rounded-xl border border-blue-500/20">
+            <h4 class="font-bold text-blue-400 mb-2">Categoria Desconhecida</h4>
+            <p class="text-neutral-300 text-sm mb-2">IA retornou categoria que nao existe</p>
+            <div class="bg-dark-800/50 p-3 rounded-lg">
+              <p class="text-neutral-400 text-sm"><strong>Solucao:</strong> Mapear para "outros" e registrar para ajuste de prompt</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-5">
+          <h4 class="font-bold text-neutral-200 mb-3">Padrao de error handling:</h4>
+          <pre class="text-sm"><code class="text-neutral-300"><span class="text-purple-400">try</span> {
+  result = <span class="text-purple-400">await</span> callAI(email);
+  <span class="text-purple-400">if</span> (!isValidJSON(result)) <span class="text-purple-400">throw</span> <span class="text-red-400">"Invalid JSON"</span>;
+  processResult(result);
+} <span class="text-purple-400">catch</span> (error) {
+  <span class="text-neutral-500">// Log do erro</span>
+  logError(error, email);
+  <span class="text-neutral-500">// Fallback para revisao humana</span>
+  sendToHumanReview(email, error);
+  <span class="text-neutral-500">// Alerta para time de ops</span>
+  alertOps(<span class="text-emerald-400">"Workflow error"</span>, error);
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Escalacao Humana -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">👤</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Escalacao para Humano</h2>
+            <p class="text-neutral-400">Quando e como passar para revisao manual</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-purple-400 mb-4">Criterios para escalacao:</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Confianca da IA &lt; 70%</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Cliente marcado como VIP</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Mencao de advogado/juridico</span>
+              </li>
+            </ul>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Palavras-chave sensiveis</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Erro no processamento</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Categoria "outros" + alta prioridade</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/30">
+          <p class="text-emerald-400 font-semibold mb-1">Melhor pratica:</p>
+          <p class="text-neutral-300 text-sm">Quando escalar, inclua o contexto: email original, classificacao da IA, score de confianca, e porque foi escalado. Facilita a decisao do humano.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">3 tipos de roteamento: categoria, prioridade e confianca</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Combine tipos de roteamento para fluxos mais inteligentes</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Acoes: criar tickets, notificar, responder, registrar</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Sempre tenha tratamento de erros e fallbacks</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Human-in-the-loop para casos de baixa confianca</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Aprenda a otimizar e monitorar seus workflows!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="modulo-2-3.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Anterior: Construindo
+      </a>
+      <a href="modulo-2-5.html" class="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+        Proximo: Otimizacao
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 2.4: Roteamento e Acoes Automatizadas</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

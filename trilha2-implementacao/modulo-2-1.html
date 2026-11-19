@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 2.1: AI Workflows | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-blue-400 font-semibold text-sm">2.1</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 2.1 - IMPLEMENTACAO
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">AI Workflows: Conceitos e Arquitetura</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Fluxos com ordem fixa e decisoes inteligentes - o equilibrio perfeito entre controle e inteligencia
+      </p>
+    </div>
+
+    <!-- Imagem Principal -->
+    <section class="mb-12">
+      <div class="rounded-2xl overflow-hidden border border-dark-600">
+        <img src="../assets/images/ai-workflow-exemplo.jpg" alt="Exemplo de AI Workflow" class="w-full h-auto">
+      </div>
+      <p class="text-center text-neutral-500 text-sm mt-3">AI Workflow: Fluxo fixo com decisoes inteligentes em pontos especificos</p>
+    </section>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">4</div>
+        <div class="text-xs text-neutral-400">Etapas do Workflow</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">80%</div>
+        <div class="text-xs text-neutral-400">Casos de Uso</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">Fixo</div>
+        <div class="text-xs text-neutral-400">Caminho Previsivel</div>
+      </div>
+    </div>
+
+    <!-- O que sao AI Workflows -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl p-8 border border-blue-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚙️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-blue-400">O que sao AI Workflows?</h2>
+            <p class="text-neutral-400">A camada 3 da piramide de automacao</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          AI Workflows sao fluxos com <strong class="text-blue-400">ORDEM FIXA</strong> de passos, mas que usam IA em pontos especificos para <strong class="text-blue-400">classificar, interpretar ou tomar decisoes</strong>. O caminho e previsivel, mas as decisoes sao inteligentes.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <p class="text-neutral-200 text-lg font-semibold mb-4">A formula do AI Workflow:</p>
+          <div class="flex items-center justify-center flex-wrap gap-3 text-lg">
+            <span class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-lg font-semibold">Entrada</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-purple-500/20 text-purple-400 px-4 py-2 rounded-lg font-semibold">IA Decide</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-lg font-semibold">Roteamento</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-lg font-semibold">Acao</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <blockquote class="border-l-4 border-blue-500 pl-4 italic text-neutral-300">
+            "O melhor dos dois mundos: a previsibilidade de um fluxo fixo com a inteligencia da IA onde ela e realmente necessaria."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diferenca Workflow vs Agent -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🔄</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Workflow vs Agent: A Diferenca Crucial</h2>
+            <p class="text-neutral-400">Entenda quando usar cada um</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-blue-900/20 p-6 rounded-xl border border-blue-500/30">
+            <div class="text-center mb-4">
+              <span class="text-4xl">🔀</span>
+              <h3 class="text-xl font-bold text-blue-400 mt-2">AI Workflow</h3>
+            </div>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">✓</span>
+                <span><strong>Caminho fixo</strong> - voce define os passos</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">✓</span>
+                <span><strong>Decisoes inteligentes</strong> - IA em pontos especificos</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">✓</span>
+                <span><strong>Previsivel</strong> - voce sabe o que vai acontecer</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">✓</span>
+                <span><strong>Mais barato</strong> - menos tokens consumidos</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">✓</span>
+                <span><strong>Facil debug</strong> - logs claros de cada passo</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-orange-900/20 p-6 rounded-xl border border-orange-500/30">
+            <div class="text-center mb-4">
+              <span class="text-4xl">🤖</span>
+              <h3 class="text-xl font-bold text-orange-400 mt-2">AI Agent</h3>
+            </div>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-orange-400 mr-2">•</span>
+                <span><strong>Caminho dinamico</strong> - IA decide os passos</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-orange-400 mr-2">•</span>
+                <span><strong>Autonomia total</strong> - IA controla tudo</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-orange-400 mr-2">•</span>
+                <span><strong>Imprevisivel</strong> - resultado pode variar</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-orange-400 mr-2">•</span>
+                <span><strong>Mais caro</strong> - mais tokens e chamadas</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-orange-400 mr-2">•</span>
+                <span><strong>Debug complexo</strong> - dificil rastrear decisoes</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-yellow-900/20 rounded-xl p-6 border border-yellow-500/30">
+          <p class="text-yellow-400 font-semibold mb-2">Regra de ouro:</p>
+          <p class="text-neutral-300">Se a ordem das operacoes e fixa e previsivel, use <strong class="text-blue-400">AI Workflow</strong>. So use Agent quando a IA realmente precisa decidir qual sera o proximo passo de forma dinamica.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Estrutura de 4 Etapas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📊</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">A Estrutura de 4 Etapas</h2>
+            <p class="text-neutral-400">Todo AI Workflow segue este padrao</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+              <span>1</span>
+            </div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-blue-400 mb-2">Entrada (Trigger)</h3>
+              <p class="text-neutral-300 mb-3">O evento que inicia o workflow: novo email, webhook, formulario, horario agendado.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Email recebido</span>
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Webhook</span>
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Scheduler</span>
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Form submit</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+              <span>2</span>
+            </div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-purple-400 mb-2">Passo de IA (Classificacao/Extracao)</h3>
+              <p class="text-neutral-300 mb-3">A IA analisa o conteudo e toma uma decisao: classifica, extrai dados, ou interpreta o contexto.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Classificar</span>
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Extrair dados</span>
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Sentimento</span>
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Resumir</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-yellow-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+              <span>3</span>
+            </div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-yellow-400 mb-2">Roteamento (Decisao)</h3>
+              <p class="text-neutral-300 mb-3">Baseado na resposta da IA, o workflow segue caminhos diferentes. Se categoria X, vai para A; se Y, vai para B.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm">Switch/Case</span>
+                <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm">If/Then</span>
+                <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm">Branches</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-14 h-14 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+              <span>4</span>
+            </div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-emerald-400 mb-2">Acao Final</h3>
+              <p class="text-neutral-300 mb-3">O que acontece no final: criar ticket, enviar email, notificar, atualizar banco de dados.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm">Criar ticket</span>
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm">Enviar email</span>
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm">Notificar Slack</span>
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm">Atualizar CRM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quando Usar -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🎯</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Quando Usar AI Workflows?</h2>
+            <p class="text-neutral-400">Cenarios ideais para esta camada</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <h4 class="font-bold text-emerald-400 flex items-center">
+              <span class="mr-2">✓</span> Use AI Workflow quando:
+            </h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                A <strong class="text-emerald-400">ordem e previsivel</strong> mas precisa de interpretacao de texto
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                Precisa <strong class="text-emerald-400">classificar ou categorizar</strong> conteudo automaticamente
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                O processo e repetitivo mas com <strong class="text-emerald-400">variacoes de conteudo</strong>
+              </li>
+              <li class="bg-emerald-900/10 p-3 rounded-lg border border-emerald-500/20">
+                Quer <strong class="text-emerald-400">previsibilidade</strong> com um toque de inteligencia
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-4">
+            <h4 class="font-bold text-red-400 flex items-center">
+              <span class="mr-2">✗</span> NAO use AI Workflow quando:
+            </h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                A ordem dos passos pode <strong class="text-red-400">variar dinamicamente</strong>
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                A IA precisa <strong class="text-red-400">decidir sozinha</strong> o que fazer em seguida
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                O processo pode ser resolvido com <strong class="text-red-400">regras simples</strong> (sem IA)
+              </li>
+              <li class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                Voce precisa de <strong class="text-red-400">conversacao interativa</strong> (use Custom GPT)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exemplos Praticos -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📋</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Exemplos Praticos</h2>
+            <p class="text-neutral-400">Casos de uso reais de AI Workflows</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-dark-700/50 rounded-xl p-6 border-l-4 border-blue-500">
+            <h4 class="font-bold text-blue-400 mb-2">Classificador de Emails de Suporte</h4>
+            <p class="text-neutral-300 mb-3">Email chega → IA classifica (Urgente, Normal, Spam, Comercial) → Roteia para fila correta → Cria ticket</p>
+            <div class="text-sm text-neutral-500">
+              Entrada: Email | IA: Classificacao | Roteamento: Por categoria | Acao: Criar ticket no Zendesk
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6 border-l-4 border-purple-500">
+            <h4 class="font-bold text-purple-400 mb-2">Qualificacao de Leads</h4>
+            <p class="text-neutral-300 mb-3">Form submetido → IA analisa perfil → Classifica (Hot, Warm, Cold) → Envia para vendedor ou nurturing</p>
+            <div class="text-sm text-neutral-500">
+              Entrada: Formulario | IA: Analise de perfil | Roteamento: Por temperatura | Acao: CRM ou email sequence
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6 border-l-4 border-emerald-500">
+            <h4 class="font-bold text-emerald-400 mb-2">Triagem de Feedbacks</h4>
+            <p class="text-neutral-300 mb-3">Feedback recebido → IA analisa sentimento e topico → Roteia para equipe responsavel → Notifica</p>
+            <div class="text-sm text-neutral-500">
+              Entrada: Review/Feedback | IA: Sentimento + Topico | Roteamento: Por departamento | Acao: Slack + Ticket
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ferramentas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🛠️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Ferramentas para AI Workflows</h2>
+            <p class="text-neutral-400">As melhores opcoes do mercado</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-dark-700/50 rounded-xl p-5 text-center">
+            <div class="text-3xl mb-3">🔧</div>
+            <h4 class="font-bold text-blue-400 mb-2">n8n</h4>
+            <p class="text-neutral-400 text-sm mb-3">Open-source, self-hosted, super flexivel</p>
+            <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs">Recomendado</span>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-5 text-center">
+            <div class="text-3xl mb-3">⚡</div>
+            <h4 class="font-bold text-purple-400 mb-2">Make</h4>
+            <p class="text-neutral-400 text-sm mb-3">Visual, poderoso, otimo para iniciantes</p>
+            <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs">Popular</span>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-5 text-center">
+            <div class="text-3xl mb-3">⚙️</div>
+            <h4 class="font-bold text-yellow-400 mb-2">Zapier</h4>
+            <p class="text-neutral-400 text-sm mb-3">Mais integracoes, mais facil, mais caro</p>
+            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs">Enterprise</span>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
+          <p class="text-blue-400 font-semibold mb-1">Dica:</p>
+          <p class="text-neutral-300 text-sm">Todas essas ferramentas podem integrar com APIs de LLM (OpenAI, Claude, etc). A escolha depende do seu budget, necessidade de controle e familiaridade tecnica.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Custos -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 rounded-2xl p-8 border border-yellow-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">💰</span>
+          <div>
+            <h2 class="text-2xl font-bold text-yellow-400">Custos e Consideracoes</h2>
+            <p class="text-neutral-400">Planeje seu budget</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-dark-800/50 rounded-xl p-6">
+            <h4 class="font-bold text-neutral-200 mb-4">Custos Envolvidos:</h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-center">
+                <span class="text-yellow-400 mr-2">$</span>
+                <span><strong>Tokens de IA</strong> - pagos por uso (input + output)</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-yellow-400 mr-2">$</span>
+                <span><strong>Plataforma</strong> - mensalidade da ferramenta</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-yellow-400 mr-2">$</span>
+                <span><strong>Integrações</strong> - algumas APIs sao pagas</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-800/50 rounded-xl p-6">
+            <h4 class="font-bold text-neutral-200 mb-4">Como Otimizar:</h4>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Use <strong>modelos menores</strong> para tarefas simples</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Aplique <strong>regras primeiro</strong>, IA so quando necessario</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Limite o <strong>tamanho do input</strong> enviado para a IA</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Erros Comuns -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚠️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Erros Comuns e Como Evitar</h2>
+            <p class="text-neutral-400">Aprenda com os erros dos outros</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+            <div class="flex items-start">
+              <span class="text-red-400 font-bold mr-3">✗</span>
+              <div>
+                <h4 class="font-bold text-red-400">Over-engineering</h4>
+                <p class="text-neutral-300 text-sm">Usar AI Workflow quando automacao simples resolve. Lembre: 50% dos casos nao precisam de IA!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+            <div class="flex items-start">
+              <span class="text-red-400 font-bold mr-3">✗</span>
+              <div>
+                <h4 class="font-bold text-red-400">Prompts Vagos</h4>
+                <p class="text-neutral-300 text-sm">Prompts mal escritos geram classificacoes inconsistentes. Seja especifico, de exemplos, defina claramente as categorias.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+            <div class="flex items-start">
+              <span class="text-red-400 font-bold mr-3">✗</span>
+              <div>
+                <h4 class="font-bold text-red-400">Falta de Fallbacks</h4>
+                <p class="text-neutral-300 text-sm">O que acontece quando a IA nao consegue classificar? Sempre tenha um plano B (ex: escalar para humano).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+            <div class="flex items-start">
+              <span class="text-red-400 font-bold mr-3">✗</span>
+              <div>
+                <h4 class="font-bold text-red-400">Ignorar Logs</h4>
+                <p class="text-neutral-300 text-sm">Sem logs, voce nao sabe o que esta dando errado. Registre inputs, outputs e decisoes para debugging.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">AI Workflows = Fluxo fixo + Decisoes inteligentes em pontos especificos</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Estrutura: Entrada → IA Decide → Roteamento → Acao Final</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Use quando a ordem e fixa mas precisa de interpretacao de texto</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Mais barato e previsivel que AI Agents</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Ferramentas: n8n, Make, Zapier com integracao de LLMs</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Vamos aprender a criar classificacoes inteligentes!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="index.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Voltar para Trilha
+      </a>
+      <a href="modulo-2-2.html" class="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+        Proximo: Classificacao
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 2.1: AI Workflows</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+## Ideia central
+
+O autor defende que AI Agents estão sendo usados em excesso e, muitas vezes, não são a melhor solução. O foco deve ser resolver problemas de forma eficiente, escolhendo o nível certo de complexidade, e não “construir agentes por construir”.
+
+Ele apresenta um modelo em forma de pirâmide com 4 camadas de sistemas de IA, indo do mais simples ao mais complexo.
+
+---
+
+## A Pirâmide dos Sistemas de IA
+
+### 1. Custom GPTs / Projetos na Nuvem / Gems (Base da pirâmide)
+
+O que são:
+
+* Assistentes conversacionais configurados com:
+
+  * Instruções específicas
+  * Base de conhecimento
+  * Tom/voz
+* Funcionam como um “estagiário que conhece a empresa”.
+
+Características principais:
+
+* Reativos (só funcionam quando alguém interage).
+* Baixa complexidade e custo.
+* Ideais quando o humano precisa estar no loop.
+
+Quando usar:
+
+* Tarefas repetitivas com necessidade de revisão humana.
+* Processos criativos ou iterativos.
+* Exemplo do vídeo: gerar guias de setup para vídeos do YouTube, com ajustes manuais rápidos.
+
+---
+
+### 2. Automação Simples (sem IA)
+
+O que é:
+
+* Fluxos automáticos baseados em regras fixas do tipo if/then.
+* Zero raciocínio ou interpretação.
+
+Características principais:
+
+* Totalmente previsível e determinístico.
+* Executa sempre o mesmo conjunto de passos.
+* Pode rodar em background (sem interação humana).
+
+Quando usar:
+
+* Processos claros, binários e objetivos.
+* Exemplo: gatilhos por horário, status “sucesso/erro”, finalização de gravação, etc.
+
+Insight importante:
+
+* Cerca de 50% das automações em empresas não precisam de IA.
+
+---
+
+### 3. AI Workflows
+
+O que são:
+
+* Fluxos com ordem fixa de passos, mas que usam IA em pontos específicos.
+
+Características principais:
+
+* Estrutura sempre igual (1 → 2 → 3 → …).
+* IA entra para:
+
+  * Classificar
+  * Interpretar texto
+  * Tomar decisões pontuais dentro do fluxo
+
+Exemplo do vídeo:
+
+* Classificação automática de e-mails (suporte, financeiro, prioridade, etc.).
+* Algo difícil de fazer apenas com regras fixas.
+
+Definição-chave:
+
+> Caminho fixo com decisões inteligentes.
+
+---
+
+### 4. AI Agents (Topo da pirâmide)
+
+O que são:
+
+* Sistemas autônomos, orientados a objetivos.
+* Podem:
+
+  * Perceber o ambiente
+  * Decidir quais ferramentas usar
+  * Escolher a ordem de execução
+  * Repetir passos
+  * Lidar com exceções
+
+Características principais:
+
+* Alta complexidade, custo e manutenção.
+* Não seguem um caminho fixo.
+* Recebem um objetivo e “descobrem” como alcançá-lo.
+
+Exemplo do vídeo:
+
+* Agente de marketing que recebe pedidos via Telegram e decide:
+
+  * Criar texto
+  * Criar ou editar imagens
+  * Consultar banco de dados
+  * Repetir etapas se necessário
+
+Insight importante:
+
+* Mesmo agentes funcionam melhor quando suas ferramentas internas são workflows previsíveis.
+
+---
+
+## Como escolher o que construir (Fluxo de decisão)
+
+1. Preciso estar no loop toda vez?
+
+   * Sim → Custom GPT
+   * Não → próxima pergunta
+
+2. Os passos são 100% baseados em lógica fixa?
+
+   * Sim → Automação simples
+   * Não → próxima pergunta
+
+3. A ordem das operações é fixa e previsível?
+
+   * Sim → AI Workflow
+   * Não → AI Agent
+
+---
+
+## Exceção importante
+
+Mesmo que a ordem pareça fixa, um AI Agent pode ser melhor quando:
+
+* Algumas etapas podem ser puladas.
+* Outras podem precisar ser repetidas várias vezes.
+* Exemplo: suporte ao cliente que às vezes precisa consultar a base de conhecimento várias vezes — ou nenhuma.
+
+---
+
+## Mensagem final
+
+* Não existe resposta universal.
+* O melhor sistema depende:
+
+  * Do problema real
+  * De como o processo humano funciona
+  * Do custo, manutenção e escala desejados
+* Muitas vezes você começa simples e escala para algo mais complexo depois (ou o contrário).
+
+### Princípio-chave:
+
+> Seja um resolvedor de problemas, não um construtor de AI Agents.

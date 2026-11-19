@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 3.4: Multi-Agents (Orquestracao) | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="../trilha2-implementacao/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-blue-400 hover:border-blue-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-purple-500/20 border-2 border-purple-500 text-purple-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-purple-400 font-semibold text-sm">3.4</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 3.4 - MAESTRIA
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Multi-Agents (Orquestracao)</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Quando multiplos agents trabalham juntos para resolver problemas complexos
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">3</div>
+        <div class="text-xs text-neutral-400">Padroes</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">5x</div>
+        <div class="text-xs text-neutral-400">Mais Complexo</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">Raro</div>
+        <div class="text-xs text-neutral-400">Mas Poderoso</div>
+      </div>
+    </div>
+
+    <!-- Introducao -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl p-8 border border-purple-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">👥</span>
+          <div>
+            <h2 class="text-2xl font-bold text-purple-400">O que sao Sistemas Multi-Agents?</h2>
+            <p class="text-neutral-400">Equipes de IA trabalhando juntas</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          Multi-agents e quando voce tem <strong class="text-purple-400">multiplos AI agents especializados</strong> trabalhando juntos em um objetivo comum. Cada agent tem seu papel, e um orquestrador coordena o trabalho.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <p class="text-neutral-200 text-lg font-semibold mb-4">Analogia com uma empresa:</p>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-dark-800/50 p-4 rounded-lg text-center">
+              <span class="text-3xl mb-2 block">👔</span>
+              <p class="text-blue-400 font-semibold">CEO (Orquestrador)</p>
+              <p class="text-neutral-500 text-xs">Distribui tarefas</p>
+            </div>
+            <div class="bg-dark-800/50 p-4 rounded-lg text-center">
+              <span class="text-3xl mb-2 block">💼</span>
+              <p class="text-emerald-400 font-semibold">Especialistas</p>
+              <p class="text-neutral-500 text-xs">Fazem suas partes</p>
+            </div>
+            <div class="bg-dark-800/50 p-4 rounded-lg text-center">
+              <span class="text-3xl mb-2 block">📋</span>
+              <p class="text-purple-400 font-semibold">Resultado Final</p>
+              <p class="text-neutral-500 text-xs">Combinado e polido</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <blockquote class="border-l-4 border-purple-500 pl-4 italic text-neutral-300">
+            "Multi-agents e como ter uma equipe de especialistas, onde cada um e expert em sua area, trabalhando em sincronia."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Padroes de Multi-Agents -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🏗️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">3 Padroes de Orquestracao</h2>
+            <p class="text-neutral-400">Formas de organizar agents</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Padrao Hierarquico -->
+          <div class="bg-gradient-to-r from-blue-900/30 to-dark-700 rounded-xl p-6 border border-blue-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">👑</span>
+              <h3 class="text-xl font-bold text-blue-400">1. Hierarquico (Boss → Workers)</h3>
+            </div>
+
+            <p class="text-neutral-300 mb-4">
+              Um agent <strong>coordenador</strong> recebe a tarefa, quebra em subtarefas, e delega para agents <strong>especializados</strong>.
+            </p>
+
+            <div class="bg-dark-800/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-neutral-400 mb-3">Fluxo:</p>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-center gap-2">
+                  <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded flex-shrink-0">Usuario</span>
+                  <span class="text-neutral-500">→</span>
+                  <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded flex-shrink-0">Agent Coordenador</span>
+                </div>
+                <div class="flex items-center gap-2 ml-8">
+                  <span class="text-neutral-500">↓</span>
+                </div>
+                <div class="flex items-center gap-2 ml-8">
+                  <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded text-xs">Agent 1 (Pesquisa)</span>
+                  <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded text-xs">Agent 2 (Escrita)</span>
+                  <span class="bg-pink-500/20 text-pink-400 px-3 py-1 rounded text-xs">Agent 3 (Review)</span>
+                </div>
+                <div class="flex items-center gap-2 ml-8">
+                  <span class="text-neutral-500">↓</span>
+                </div>
+                <div class="flex items-center gap-2 ml-8">
+                  <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded flex-shrink-0">Coordenador (combina)</span>
+                  <span class="text-neutral-500">→</span>
+                  <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded flex-shrink-0">Usuario</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm font-semibold text-emerald-400 mb-2">✓ Vantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Simples de implementar</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Controle centralizado</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Facil debug (rastrear decisoes)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Especialistas focados</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-red-400 mb-2">✗ Desvantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Gargalo no coordenador</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Sem colaboracao entre workers</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Coordenador precisa ser "inteligente"</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-dark-800/50 rounded-lg p-4">
+              <p class="text-xs text-neutral-500 mb-2">Exemplo de uso:</p>
+              <p class="text-sm text-neutral-300">
+                <strong class="text-blue-400">Marketing Agency AI:</strong> Coordenador recebe "criar campanha", delega para Agent de Pesquisa (analisa mercado), Agent de Copy (escreve textos), Agent de Design (cria artes), e Agent de Review (valida tudo).
+              </p>
+            </div>
+          </div>
+
+          <!-- Padrao Colaborativo -->
+          <div class="bg-gradient-to-r from-emerald-900/30 to-dark-700 rounded-xl p-6 border border-emerald-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">🤝</span>
+              <h3 class="text-xl font-bold text-emerald-400">2. Colaborativo (Peer-to-Peer)</h3>
+            </div>
+
+            <p class="text-neutral-300 mb-4">
+              Agents <strong>iguais</strong> que se comunicam diretamente entre si, sem hierarquia rigida. Compartilham informacao e decidem juntos.
+            </p>
+
+            <div class="bg-dark-800/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-neutral-400 mb-3">Fluxo:</p>
+              <div class="flex items-center justify-center gap-3 flex-wrap">
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-2 rounded text-sm">Agent A</span>
+                <span class="text-neutral-500">↔</span>
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-2 rounded text-sm">Agent B</span>
+                <span class="text-neutral-500">↔</span>
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-2 rounded text-sm">Agent C</span>
+              </div>
+              <p class="text-center text-neutral-500 text-xs mt-3">Todos se comunicam diretamente</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm font-semibold text-emerald-400 mb-2">✓ Vantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Flexivel e adaptativo</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Sem ponto unico de falha</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Agents aprendem uns com outros</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Criativo - ideias emergentes</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-red-400 mb-2">✗ Desvantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>MUITO complexo de implementar</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Dificil prever comportamento</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Pode ficar em loops infinitos</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Custo alto (muitas conversas)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-dark-800/50 rounded-lg p-4">
+              <p class="text-xs text-neutral-500 mb-2">Exemplo de uso:</p>
+              <p class="text-sm text-neutral-300">
+                <strong class="text-emerald-400">Brainstorming criativo:</strong> 3 agents com personalidades diferentes (otimista, critico, pratico) discutem ideias de produto. Cada um reage as ideias dos outros ate convergir numa solucao.
+              </p>
+            </div>
+          </div>
+
+          <!-- Padrao de Debate -->
+          <div class="bg-gradient-to-r from-purple-900/30 to-dark-700 rounded-xl p-6 border border-purple-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">⚔️</span>
+              <h3 class="text-xl font-bold text-purple-400">3. Debate / Adversarial</h3>
+            </div>
+
+            <p class="text-neutral-300 mb-4">
+              Agents com <strong>perspectivas opostas</strong> debatem ate chegar num consenso ou solucao refinada. Tipo "anjo e demonio no ombro".
+            </p>
+
+            <div class="bg-dark-800/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-neutral-400 mb-3">Fluxo:</p>
+              <div class="flex items-center justify-center gap-3">
+                <div class="text-center">
+                  <span class="bg-emerald-500/20 text-emerald-400 px-3 py-2 rounded text-sm block mb-1">Agent PRO</span>
+                  <p class="text-neutral-500 text-xs">Argumenta A FAVOR</p>
+                </div>
+                <span class="text-neutral-500 text-2xl">⚔️</span>
+                <div class="text-center">
+                  <span class="bg-red-500/20 text-red-400 px-3 py-2 rounded text-sm block mb-1">Agent CONTRA</span>
+                  <p class="text-neutral-500 text-xs">Argumenta CONTRA</p>
+                </div>
+              </div>
+              <div class="flex items-center justify-center gap-2 mt-3">
+                <span class="text-neutral-500">↓</span>
+              </div>
+              <div class="text-center mt-2">
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-2 rounded text-sm">Agent Juiz</span>
+                <p class="text-neutral-500 text-xs mt-1">Decide ou sintetiza</p>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm font-semibold text-emerald-400 mb-2">✓ Vantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Explora multiplas perspectivas</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Reduz vies (bias)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Solucoes mais robustas</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-emerald-400 mr-2">•</span>
+                    <span>Bom para decisoes criticas</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-red-400 mb-2">✗ Desvantagens:</p>
+                <ul class="space-y-1 text-sm text-neutral-300">
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Lento (multiplas rodadas)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Custo MUITO alto</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Pode nao convergir</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-red-400 mr-2">•</span>
+                    <span>Overkill para tarefas simples</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-dark-800/50 rounded-lg p-4">
+              <p class="text-xs text-neutral-500 mb-2">Exemplo de uso:</p>
+              <p class="text-sm text-neutral-300">
+                <strong class="text-purple-400">Code Review AI:</strong> Agent 1 escreve codigo, Agent 2 critica (bugs, seguranca), Agent 1 defende ou corrige, Agent 3 (senior) decide se o codigo passa.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Single vs Multi -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🤔</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Quando Usar Multi-Agents vs Agent Unico?</h2>
+            <p class="text-neutral-400">A decisao mais importante</p>
+          </div>
+        </div>
+
+        <div class="bg-yellow-900/20 rounded-xl p-6 border border-yellow-500/30 mb-6">
+          <p class="text-yellow-400 font-semibold mb-3">⚠️ Regra de Ouro:</p>
+          <p class="text-neutral-300 text-lg">
+            <strong>90% dos casos, um agent unico e suficiente.</strong> Multi-agents adiciona 5-10x mais complexidade. So use se realmente necessario.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-emerald-900/10 rounded-xl p-6 border border-emerald-500/30">
+            <h3 class="text-lg font-bold text-emerald-400 mb-4">✓ Use MULTI-agents quando:</h3>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-emerald-400">Tarefas claramente divisiveis</strong>
+                <p class="text-neutral-500 text-xs">Ex: Pesquisa + Escrita + Review</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-emerald-400">Especialistas necessarios</strong>
+                <p class="text-neutral-500 text-xs">Ex: Agent SQL + Agent Python + Agent DevOps</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-emerald-400">Multiplas perspectivas</strong>
+                <p class="text-neutral-500 text-xs">Ex: Criativo vs Critico vs Pratico</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-emerald-400">Workflows complexos</strong>
+                <p class="text-neutral-500 text-xs">Ex: Pipeline de producao com etapas distintas</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-emerald-400">Precisa de debate</strong>
+                <p class="text-neutral-500 text-xs">Ex: Decisoes criticas que precisam validacao</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-blue-900/10 rounded-xl p-6 border border-blue-500/30">
+            <h3 class="text-lg font-bold text-blue-400 mb-4">✓ Use AGENT UNICO quando:</h3>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-blue-400">Tarefa coesa</strong>
+                <p class="text-neutral-500 text-xs">Um objetivo, um caminho</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-blue-400">Precisa de velocidade</strong>
+                <p class="text-neutral-500 text-xs">Multi-agents e LENTO</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-blue-400">Budget limitado</strong>
+                <p class="text-neutral-500 text-xs">Multi-agents custa 5-10x mais</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-blue-400">Precisa debugar</strong>
+                <p class="text-neutral-500 text-xs">Agent unico e mais facil de rastrear</p>
+              </li>
+              <li class="bg-dark-800/50 p-3 rounded-lg">
+                <strong class="text-blue-400">Prototipo / MVP</strong>
+                <p class="text-neutral-500 text-xs">Comece simples, escale depois</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-dark-700/50 rounded-xl p-6">
+          <p class="text-neutral-200 font-semibold mb-3">Exemplo pratico:</p>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="text-blue-400 font-semibold mb-2">Agent Unico:</p>
+              <p class="text-neutral-300">"Analise este contrato e me diga os riscos"</p>
+              <p class="text-neutral-500 text-xs mt-1">→ Um agent juridico faz tudo</p>
+            </div>
+            <div>
+              <p class="text-emerald-400 font-semibold mb-2">Multi-Agents:</p>
+              <p class="text-neutral-300">"Negocie este contrato com a outra parte"</p>
+              <p class="text-neutral-500 text-xs mt-1">→ Agent negociador + Agent juridico + Agent financeiro</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comunicacao entre Agents -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">💬</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Comunicacao entre Agents</h2>
+            <p class="text-neutral-400">Como agents "conversam"</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-6">
+          Em sistemas multi-agents, a comunicacao e TUDO. Agents precisam compartilhar informacao de forma clara e estruturada.
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-dark-700/50 rounded-xl p-6">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">📨</span>
+              <h3 class="text-lg font-bold text-purple-400">1. Message Passing</h3>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Agents enviam mensagens estruturadas uns para os outros.</p>
+            <div class="bg-dark-800 rounded-lg p-4">
+              <pre class="text-xs text-neutral-300 overflow-x-auto"><code>{
+  "from": "agent_pesquisa",
+  "to": "agent_escrita",
+  "type": "result",
+  "data": {
+    "insights": ["..."],
+    "sources": ["..."]
+  }
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">🗂️</span>
+              <h3 class="text-lg font-bold text-purple-400">2. Shared Memory</h3>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Todos agents acessam um "quadro negro" compartilhado.</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Simples de implementar</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Facil debug (tudo num lugar)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Risco: conflitos de escrita</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl mr-3">🔄</span>
+              <h3 class="text-lg font-bold text-purple-400">3. Event Bus</h3>
+            </div>
+            <p class="text-neutral-300 text-sm mb-3">Agents publicam eventos, outros agents "escutam" e reagem.</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Desacoplado (agents nao precisam se conhecer)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Escalavel</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Mais complexo de implementar</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Custos e Complexidade -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">💰</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Custos e Complexidade</h2>
+            <p class="text-neutral-400">O preco de ter uma equipe de IA</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-red-900/10 rounded-xl p-6 border border-red-500/30">
+            <h3 class="text-lg font-bold text-red-400 mb-4">💸 Custo Financeiro</h3>
+            <div class="space-y-3 text-sm">
+              <div class="bg-dark-800/50 p-3 rounded-lg">
+                <p class="text-neutral-300 mb-1">Agent unico: <span class="text-blue-400">$0.10</span></p>
+                <p class="text-neutral-500 text-xs">10 chamadas de API</p>
+              </div>
+              <div class="bg-dark-800/50 p-3 rounded-lg">
+                <p class="text-neutral-300 mb-1">3 Agents hierarquicos: <span class="text-yellow-400">$0.50</span></p>
+                <p class="text-neutral-500 text-xs">50 chamadas (coordenacao + trabalho)</p>
+              </div>
+              <div class="bg-dark-800/50 p-3 rounded-lg">
+                <p class="text-neutral-300 mb-1">5 Agents colaborativos: <span class="text-red-400">$2.00</span></p>
+                <p class="text-neutral-500 text-xs">200+ chamadas (muita conversa)</p>
+              </div>
+            </div>
+            <p class="text-red-400 text-sm mt-4 font-semibold">
+              Multi-agents pode custar 5-20x mais que agent unico!
+            </p>
+          </div>
+
+          <div class="bg-yellow-900/10 rounded-xl p-6 border border-yellow-500/30">
+            <h3 class="text-lg font-bold text-yellow-400 mb-4">🧩 Complexidade Tecnica</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Orquestracao:</strong> Gerenciar ordem e fluxo
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Estado compartilhado:</strong> Sincronizar memoria
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Error handling:</strong> E se um agent falha?
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Debugging:</strong> Rastrear decisoes de N agents
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Testing:</strong> Testar interacoes e multiplos caminhos
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <blockquote class="border-l-4 border-red-500 pl-4 italic text-neutral-300">
+            "Se voce nao tem certeza se precisa de multi-agents, voce NAO precisa. Comece com um agent unico e escale apenas se necessario."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exemplos Praticos -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">💼</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Exemplos Praticos de Multi-Agents</h2>
+            <p class="text-neutral-400">Casos de uso reais</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-gradient-to-r from-blue-900/20 to-dark-700 rounded-xl p-6 border border-blue-500/30">
+            <h3 class="text-lg font-bold text-blue-400 mb-3">1. Equipe de Marketing AI</h3>
+            <p class="text-neutral-300 text-sm mb-3">
+              <strong>Agents:</strong> Pesquisador de Mercado + Copywriter + Designer + Social Media Manager
+            </p>
+            <p class="text-neutral-400 text-sm mb-3">
+              <strong>Fluxo:</strong> Pesquisador analisa concorrencia → Copywriter cria mensagens → Designer cria artes → Social Media agenda posts
+            </p>
+            <p class="text-emerald-400 text-sm">
+              ✓ Justifica multi-agents: tarefas claramente divisiveis com especialistas
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-r from-emerald-900/20 to-dark-700 rounded-xl p-6 border border-emerald-500/30">
+            <h3 class="text-lg font-bold text-emerald-400 mb-3">2. Code Review System</h3>
+            <p class="text-neutral-300 text-sm mb-3">
+              <strong>Agents:</strong> Developer + Security Reviewer + Performance Reviewer + Tech Lead
+            </p>
+            <p class="text-neutral-400 text-sm mb-3">
+              <strong>Fluxo:</strong> Dev escreve codigo → Security critica → Performance critica → Dev corrige → Tech Lead aprova ou rejeita
+            </p>
+            <p class="text-emerald-400 text-sm">
+              ✓ Justifica multi-agents: multiplas perspectivas criticas
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-r from-purple-900/20 to-dark-700 rounded-xl p-6 border border-purple-500/30">
+            <h3 class="text-lg font-bold text-purple-400 mb-3">3. Customer Support Escalation</h3>
+            <p class="text-neutral-300 text-sm mb-3">
+              <strong>Agents:</strong> Tier 1 (FAQ) + Tier 2 (Tecnico) + Tier 3 (Especialista) + Manager
+            </p>
+            <p class="text-neutral-400 text-sm mb-3">
+              <strong>Fluxo:</strong> T1 tenta resolver → Se nao consegue, escalada para T2 → Se complexo, vai para T3 → Manager aprova solucao
+            </p>
+            <p class="text-emerald-400 text-sm">
+              ✓ Justifica multi-agents: hierarquia clara com especializacao crescente
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-r from-yellow-900/20 to-dark-700 rounded-xl p-6 border border-yellow-500/30">
+            <h3 class="text-lg font-bold text-yellow-400 mb-3">4. Creative Brainstorming</h3>
+            <p class="text-neutral-300 text-sm mb-3">
+              <strong>Agents:</strong> Idealista (otimista) + Critico (realista) + Pratico (executor)
+            </p>
+            <p class="text-neutral-400 text-sm mb-3">
+              <strong>Fluxo:</strong> Idealista propoe ideias malucas → Critico aponta problemas → Pratico sugere como implementar → Repetem ate consenso
+            </p>
+            <p class="text-emerald-400 text-sm">
+              ✓ Justifica multi-agents: debate melhora qualidade da decisao
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Multi-agents = multiplos especialistas trabalhando juntos</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">3 padroes: Hierarquico, Colaborativo, Debate</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Use agent unico em 90% dos casos - multi e complexo e caro</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Justifica multi quando: especialistas, debate, ou divisao clara</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Custo 5-20x maior que agent unico + complexidade exponencial</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Aprenda a colocar agents em producao com seguranca!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="modulo-3-3.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Anterior: Ferramentas e Memoria
+      </a>
+      <a href="modulo-3-5.html" class="flex items-center px-6 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors">
+        Proximo: Producao e Seguranca
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 3.4: Multi-Agents (Orquestracao)</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

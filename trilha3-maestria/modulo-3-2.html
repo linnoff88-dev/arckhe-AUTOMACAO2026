@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 3.2: Arquitetura de AI Agents | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="../trilha2-implementacao/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-blue-400 hover:border-blue-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-purple-500/20 border-2 border-purple-500 text-purple-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-purple-400 font-semibold text-sm">3.2</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 3.2 - MAESTRIA
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Arquitetura de AI Agents</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Os componentes fundamentais que fazem um agent funcionar
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">4</div>
+        <div class="text-xs text-neutral-400">Componentes</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">3</div>
+        <div class="text-xs text-neutral-400">Padroes</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">Loop</div>
+        <div class="text-xs text-neutral-400">Continuo</div>
+      </div>
+    </div>
+
+    <!-- Componentes Principais -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl p-8 border border-purple-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🏗️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-purple-400">Os 4 Componentes de um Agent</h2>
+            <p class="text-neutral-400">A anatomia completa</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-8">
+          Todo AI Agent eficaz e construido sobre 4 pilares fundamentais. Sem qualquer um deles, o sistema nao funciona como um verdadeiro agent.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-dark-700/50 rounded-xl p-6 border border-purple-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">🧠</span>
+              <h3 class="text-xl font-bold text-purple-400">1. LLM (Cerebro)</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              O modelo de linguagem e o nucleo do agent. Ele raciocina, planeja e decide qual acao tomar.
+            </p>
+            <ul class="space-y-2 text-neutral-400 text-sm">
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>GPT-4, Claude, Gemini sao os mais usados</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Quanto melhor o modelo, melhor o raciocinio</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-purple-400 mr-2">•</span>
+                <span>Recebe contexto e retorna decisoes</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6 border border-blue-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">🔧</span>
+              <h3 class="text-xl font-bold text-blue-400">2. Ferramentas (Tools)</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              As acoes que o agent pode realizar no mundo real. Sem ferramentas, o agent so pode pensar, nao agir.
+            </p>
+            <ul class="space-y-2 text-neutral-400 text-sm">
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>APIs, bancos de dados, arquivos</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>O agent escolhe qual ferramenta usar</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>Function calling do LLM</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6 border border-emerald-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">💾</span>
+              <h3 class="text-xl font-bold text-emerald-400">3. Memoria</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              Permite ao agent lembrar de acoes passadas e aprender durante a execucao.
+            </p>
+            <ul class="space-y-2 text-neutral-400 text-sm">
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">•</span>
+                <span>Curto prazo: contexto da conversa</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">•</span>
+                <span>Longo prazo: vector databases</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">•</span>
+                <span>Essencial para tarefas longas</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-6 border border-yellow-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-3xl mr-3">📋</span>
+              <h3 class="text-xl font-bold text-yellow-400">4. Planejador</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              A logica que decide QUANDO parar, QUAL ferramenta usar, e COMO adaptar o plano.
+            </p>
+            <ul class="space-y-2 text-neutral-400 text-sm">
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <span>Pode ser o proprio LLM (ReAct)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <span>Ou logica programada separada</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <span>Define criterios de parada</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Padroes de Arquitetura -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🎯</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Padroes de Arquitetura</h2>
+            <p class="text-neutral-400">Como organizar a "mente" do agent</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- ReAct -->
+          <div class="bg-gradient-to-r from-purple-900/30 to-dark-700 rounded-xl p-6 border border-purple-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-2xl mr-3">🔄</span>
+              <h3 class="text-xl font-bold text-purple-400">ReAct (Reasoning + Acting)</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              O padrao mais popular. O agent <strong>raciocina</strong> antes de cada acao e <strong>observa</strong> o resultado.
+            </p>
+            <div class="bg-dark-800/50 rounded-lg p-4 mb-4">
+              <p class="text-sm text-neutral-400 mb-2">Fluxo:</p>
+              <div class="flex flex-wrap items-center gap-2 text-sm">
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded">Pensamento</span>
+                <span class="text-neutral-500">→</span>
+                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded">Acao</span>
+                <span class="text-neutral-500">→</span>
+                <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded">Observacao</span>
+                <span class="text-neutral-500">→</span>
+                <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded">Pensamento</span>
+                <span class="text-neutral-500">...</span>
+              </div>
+            </div>
+            <div class="bg-dark-800/50 rounded-lg p-4">
+              <p class="text-xs text-neutral-500 mb-2">Exemplo:</p>
+              <pre class="text-xs text-neutral-300 overflow-x-auto"><code>Pensamento: Preciso saber o clima em Sao Paulo
+Acao: buscar_clima(cidade="Sao Paulo")
+Observacao: 25°C, ensolarado
+Pensamento: Agora posso responder ao usuario
+Resposta: Esta 25°C e ensolarado em Sao Paulo!</code></pre>
+            </div>
+          </div>
+
+          <!-- Tool-Use -->
+          <div class="bg-gradient-to-r from-blue-900/30 to-dark-700 rounded-xl p-6 border border-blue-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-2xl mr-3">🛠️</span>
+              <h3 class="text-xl font-bold text-blue-400">Tool-Use Pattern</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              O agent tem acesso direto a funcoes (tools) via function calling da API do LLM.
+            </p>
+            <div class="bg-dark-800/50 rounded-lg p-4">
+              <p class="text-sm text-neutral-400 mb-2">Vantagens:</p>
+              <ul class="space-y-1 text-sm text-neutral-300">
+                <li class="flex items-start">
+                  <span class="text-blue-400 mr-2">•</span>
+                  <span>Mais rapido - chamadas estruturadas</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-blue-400 mr-2">•</span>
+                  <span>Menos erros de parsing</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-blue-400 mr-2">•</span>
+                  <span>Suportado nativamente por GPT-4, Claude, etc</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Chain-of-Thought -->
+          <div class="bg-gradient-to-r from-emerald-900/30 to-dark-700 rounded-xl p-6 border border-emerald-500/30">
+            <div class="flex items-center mb-4">
+              <span class="text-2xl mr-3">🔗</span>
+              <h3 class="text-xl font-bold text-emerald-400">Chain-of-Thought</h3>
+            </div>
+            <p class="text-neutral-300 mb-4">
+              O agent "pensa em voz alta", quebrando problemas complexos em passos menores.
+            </p>
+            <div class="bg-dark-800/50 rounded-lg p-4">
+              <p class="text-sm text-neutral-400 mb-2">Melhor para:</p>
+              <ul class="space-y-1 text-sm text-neutral-300">
+                <li class="flex items-start">
+                  <span class="text-emerald-400 mr-2">•</span>
+                  <span>Matematica e raciocinio logico</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-emerald-400 mr-2">•</span>
+                  <span>Problemas multi-etapas</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-emerald-400 mr-2">•</span>
+                  <span>Debugging e analise</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Prompt -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">📝</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">System Prompt para Agents</h2>
+            <p class="text-neutral-400">A personalidade e instrucoes base</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-6">
+          O system prompt de um agent e diferente de um chatbot comum. Ele precisa ensinar o agent COMO raciocinar e QUANDO usar ferramentas.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <p class="text-sm font-semibold text-purple-400 mb-3">Elementos essenciais de um bom system prompt:</p>
+          <div class="space-y-3">
+            <div class="flex items-start">
+              <span class="text-purple-400 mr-2">1.</span>
+              <div>
+                <strong class="text-purple-400">Papel e objetivo</strong>
+                <p class="text-neutral-400 text-sm">Quem e o agent e qual seu objetivo principal</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <span class="text-purple-400 mr-2">2.</span>
+              <div>
+                <strong class="text-purple-400">Ferramentas disponiveis</strong>
+                <p class="text-neutral-400 text-sm">Lista e descricao de cada ferramenta que pode usar</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <span class="text-purple-400 mr-2">3.</span>
+              <div>
+                <strong class="text-purple-400">Processo de raciocinio</strong>
+                <p class="text-neutral-400 text-sm">Como pensar antes de agir (ReAct pattern)</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <span class="text-purple-400 mr-2">4.</span>
+              <div>
+                <strong class="text-purple-400">Restricoes e limites</strong>
+                <p class="text-neutral-400 text-sm">O que o agent NUNCA deve fazer</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <span class="text-purple-400 mr-2">5.</span>
+              <div>
+                <strong class="text-purple-400">Criterios de parada</strong>
+                <p class="text-neutral-400 text-sm">Quando considerar a tarefa completa</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <p class="text-sm font-semibold text-neutral-300 mb-3">Exemplo de system prompt basico:</p>
+          <pre class="text-xs text-neutral-300 bg-dark-800 rounded-lg p-4 overflow-x-auto"><code>Voce e um assistente de pesquisa que ajuda usuarios a encontrar informacoes.
+
+Ferramentas disponiveis:
+- buscar_web(query): Busca na internet
+- ler_documento(url): Le conteudo de uma pagina
+- salvar_nota(conteudo): Salva informacao importante
+
+Processo:
+1. Pense sobre o que o usuario precisa
+2. Escolha a ferramenta mais adequada
+3. Analise o resultado
+4. Decida se precisa de mais informacoes ou pode responder
+5. Responda de forma clara e completa
+
+Restricoes:
+- NUNCA invente informacoes
+- SEMPRE cite suas fontes
+- Se nao tiver certeza, admita e busque mais dados
+- Limite-se a 5 acoes por tarefa</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Definicao de Ferramentas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚙️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Definindo Ferramentas (Function Calling)</h2>
+            <p class="text-neutral-400">A linguagem entre agent e mundo real</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-6">
+          As ferramentas sao definidas em JSON Schema. Quanto mais clara a definicao, melhor o agent entende quando usa-la.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <p class="text-sm font-semibold text-neutral-300 mb-3">Exemplo de definicao de ferramenta:</p>
+          <pre class="text-xs text-neutral-300 bg-dark-800 rounded-lg p-4 overflow-x-auto"><code>{
+  "name": "buscar_clima",
+  "description": "Busca informacoes de clima atual de uma cidade",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "cidade": {
+        "type": "string",
+        "description": "Nome da cidade (ex: Sao Paulo, Rio de Janeiro)"
+      },
+      "unidade": {
+        "type": "string",
+        "enum": ["celsius", "fahrenheit"],
+        "description": "Unidade de temperatura"
+      }
+    },
+    "required": ["cidade"]
+  }
+}</code></pre>
+          <p class="text-xs text-neutral-500 mt-3">
+            O LLM le esta definicao e sabe exatamente quando e como chamar a funcao.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Configuracoes de Seguranca -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🔒</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Configuracoes de Seguranca (Guardrails)</h2>
+            <p class="text-neutral-400">Protecoes essenciais</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-red-900/10 rounded-xl p-6 border border-red-500/30">
+            <h3 class="text-lg font-bold text-red-400 mb-4">Limites de Execucao</h3>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">•</span>
+                <div>
+                  <strong>Max iteracoes:</strong> 10-20 loops no maximo
+                  <p class="text-neutral-500 text-xs">Evita loops infinitos</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">•</span>
+                <div>
+                  <strong>Timeout:</strong> 60-300 segundos
+                  <p class="text-neutral-500 text-xs">Previne travamentos</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">•</span>
+                <div>
+                  <strong>Rate limiting:</strong> X chamadas/minuto
+                  <p class="text-neutral-500 text-xs">Controle de custos</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-yellow-900/10 rounded-xl p-6 border border-yellow-500/30">
+            <h3 class="text-lg font-bold text-yellow-400 mb-4">Restricoes de Acoes</h3>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Whitelist de ferramentas</strong>
+                  <p class="text-neutral-500 text-xs">So pode usar ferramentas aprovadas</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Validacao de inputs</strong>
+                  <p class="text-neutral-500 text-xs">Verifica parametros antes de executar</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-yellow-400 mr-2">•</span>
+                <div>
+                  <strong>Confirmacao humana</strong>
+                  <p class="text-neutral-500 text-xs">Para acoes criticas (deletar, pagar, etc)</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-dark-700/50 rounded-xl p-6">
+          <blockquote class="border-l-4 border-red-500 pl-4 italic text-neutral-300">
+            "Um agent sem guardrails e como um carro sem freios - pode ser rapido, mas e perigoso."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">4 componentes: LLM, Ferramentas, Memoria, Planejador</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">ReAct e o padrao mais popular (Raciocinio + Acao)</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">System prompt define personalidade e processo de raciocinio</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Ferramentas sao definidas via JSON Schema (function calling)</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-purple-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Guardrails sao essenciais: limites, validacao, confirmacao</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Aprenda sobre Ferramentas e Memoria em profundidade!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="modulo-3-1.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Anterior: Quando e Por Que
+      </a>
+      <a href="modulo-3-3.html" class="flex items-center px-6 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors">
+        Proximo: Ferramentas e Memoria
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 3.2: Arquitetura de AI Agents</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 3: Maestria | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text {
+      background: linear-gradient(90deg, #CDDC39, #E040FB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .module-card.completed { opacity: 0.7; }
+    .module-card.completed .check-icon { display: block; }
+    .check-icon { display: none; }
+
+    /* Modal com iframe */
+    .modal-overlay { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+    .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+    .modal-container { background-color: #1f2937; width: 95%; max-width: 1200px; height: 90vh; border-radius: 1rem; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid #374151; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-body { flex: 1; overflow: hidden; }
+    .modal-body iframe { width: 100%; height: 100%; border: none; }
+    .modal-close { color: #9ca3af; font-size: 2rem; font-weight: 700; cursor: pointer; line-height: 1; }
+    .modal-close:hover { color: #ef4444; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+    html:not(.dark) .modal-container { background-color: #ffffff; }
+    html:not(.dark) .modal-header { border-bottom-color: #e2e8f0; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="../trilha2-implementacao/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-blue-400 hover:border-blue-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-purple-500/20 border-2 border-purple-500 text-purple-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors">
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress Bar -->
+  <div class="bg-dark-800 border-b border-dark-700 py-3">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm text-neutral-400">Progresso da Trilha</span>
+        <span class="text-sm text-purple-400 font-semibold"><span id="progress-percent">0</span>% completo</span>
+      </div>
+      <div class="w-full bg-dark-600 rounded-full h-2">
+        <div id="progress-bar" class="bg-gradient-to-r from-purple-500 to-purple-400 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <div class="text-xs text-neutral-500 mt-1"><span id="modules-completed">0</span>/5 modulos completos</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <section class="py-12 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-block px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold mb-4">
+        TRILHA 3 - AVANCADO
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Maestria</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Domine AI Agents e aprenda a orquestrar sistemas hibridos complexos com autonomia real.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="max-w-4xl mx-auto px-4 mb-12">
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">5</div>
+        <div class="text-xs text-neutral-400">Modulos</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">40</div>
+        <div class="text-xs text-neutral-400">Topicos</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-purple-400">AI</div>
+        <div class="text-xs text-neutral-400">Agents</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modules -->
+  <main class="max-w-4xl mx-auto px-4 pb-20">
+
+    <!-- Modulo 3.1 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden" data-module="1">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">3.1</div>
+            <div>
+              <h3 class="text-xl font-bold text-neutral-100">AI Agents: Quando e Por Que</h3>
+              <p class="text-neutral-400 text-sm mt-1">Sistemas autonomos orientados a objetivos</p>
+            </div>
+          </div>
+          <svg class="check-icon w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+        <!-- Lista de Topicos -->
+        <div class="space-y-2 mb-4">
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🤖</span> O que sao AI Agents</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Sistemas AUTONOMOS que trabalham em direcao a um objetivo de forma independente.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Representam o nivel mais alto de automacao, com capacidade de tomar decisoes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Autonomia, objetivo, percepcao do ambiente, tomada de decisao.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔀</span> Diferenca entre Agent e Workflow</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">A distincao fundamental entre execucao linear e execucao autonoma.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Escolher errado pode gerar custos altos ou resultados ruins.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Previsibilidade vs autonomia, custo vs flexibilidade.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">💸</span> Regra dos Tokens Desperdicados</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Nao use agents para processos lineares - desperdicio de recursos.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Agents tem alta complexidade e custo quando usados desnecessariamente.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Eficiencia de tokens, custo computacional, over-engineering.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">❓</span> Quando usar um AI Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Criterios claros para decidir se um agent e a solucao certa.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Evitar complexidade desnecessaria e maximizar ROI.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Etapas pulaveis, repeticoes variaveis, decisoes dinamicas.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">⚡</span> Capacidades de um Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Perceber ambiente, decidir ferramentas, escolher ordem, lidar com excecoes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Entender capacidades ajuda a projetar agents eficazes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Percepcao, raciocinio, acao, adaptacao.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">⚖️</span> Trade-offs de complexidade</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Balanco entre poder do agent e custo de manutencao.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Agents mais complexos exigem mais recursos e monitoramento.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Custo operacional, debugging, observabilidade.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">✅</span> Excecoes que justificam Agents</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Casos especificos onde agents sao claramente a melhor opcao.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Reconhecer padroes acelera decisoes de arquitetura.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Consultas variaveis, multi-etapas dinamicas, pesquisa aberta.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔺</span> Piramide de Automacao com IA</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Visao geral das 4 camadas: GPT, Prompts, Workflows, Agents.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Agents sao o topo da piramide - entender a base e essencial.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Camadas progressivas, dependencias, evolucao natural.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botoes -->
+        <div class="flex gap-3">
+          <button onclick="openModal('1')" class="flex-1 px-4 py-3 bg-purple-500/20 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-3-1.html" class="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 3.2 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden" data-module="2">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">3.2</div>
+            <div>
+              <h3 class="text-xl font-bold text-neutral-100">Arquitetura de AI Agents</h3>
+              <p class="text-neutral-400 text-sm mt-1">Componentes, padroes e design de agentes</p>
+            </div>
+          </div>
+          <svg class="check-icon w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+        <!-- Lista de Topicos -->
+        <div class="space-y-2 mb-4">
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🧩</span> Componentes de um Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Objetivo, memoria, ferramentas, loop de raciocinio, criterios de parada.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Cada componente tem papel critico no funcionamento do agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Goal, memory, tools, reasoning loop, stop conditions.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔄</span> Padrao ReAct</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Reasoning + Acting - agent pensa e age em loop continuo.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Padrao mais comum e bem documentado para agents.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Thought, Action, Observation, ciclo iterativo.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📋</span> Padrao Plan-and-Execute</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent planeja primeiro todas as etapas, depois executa.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Melhor para tarefas complexas que precisam de visao geral.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Planejamento, decomposicao, execucao sequencial.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">👥</span> Multi-Agent Systems</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Varios agents especializados colaborando em uma tarefa.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Divide complexidade e permite especializacao.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Orquestracao, comunicacao, delegacao, supervisao.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🧠</span> Memoria de curto e longo prazo</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Como agents armazenam e recuperam informacoes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Memoria e essencial para contexto e aprendizado.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Working memory, vector stores, RAG, persistencia.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🛑</span> Criterios de parada</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Regras que definem quando o agent deve parar.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Evita loops infinitos e controla custos.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Max iterations, goal achieved, error handling, timeouts.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔧</span> Ferramentas como Workflows</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Ferramentas internas do agent sao workflows previsiveis.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Combina autonomia do agent com previsibilidade das ferramentas.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Tool design, encapsulamento, confiabilidade.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">✍️</span> Design de prompts para Agents</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">System prompts especificos para comportamento de agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">O prompt define personalidade e capacidades do agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Role definition, tool instructions, guardrails.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botoes -->
+        <div class="flex gap-3">
+          <button onclick="openModal('2')" class="flex-1 px-4 py-3 bg-purple-500/20 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-3-2.html" class="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 3.3 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden" data-module="3">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">3.3</div>
+            <div>
+              <h3 class="text-xl font-bold text-neutral-100">Ferramentas e Integracoes para Agents</h3>
+              <p class="text-neutral-400 text-sm mt-1">Equipando agentes com capacidades poderosas</p>
+            </div>
+          </div>
+          <svg class="check-icon w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+        <!-- Lista de Topicos -->
+        <div class="space-y-2 mb-4">
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🛠️</span> Tipos de ferramentas</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Criacao de texto, imagem, consulta a banco, APIs, comunicacao.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Cada tipo de ferramenta expande capacidades do agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Text generation, image gen, database, API calls, messaging.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">⚙️</span> Design de ferramentas eficientes</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Principios para criar ferramentas que agents usam bem.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Ferramentas mal projetadas causam erros e desperdicio.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Single responsibility, clear inputs/outputs, error messages.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📚</span> Documentacao para o Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Descricoes claras de ferramentas para o LLM entender.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">O agent so usa bem o que entende bem.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Tool descriptions, parameter docs, examples, edge cases.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📱</span> Integracao com Telegram</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que recebe e envia mensagens via Telegram.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Canal popular para interacao com usuarios finais.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Bot API, webhooks, message handling, media support.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">💬</span> Integracao com WhatsApp</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que opera via WhatsApp Business API.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Principal canal de comunicacao no Brasil.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Business API, templates, 24h window, media messages.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🗃️</span> Consultas a banco de dados</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que consulta e atualiza dados em bancos.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Acesso a dados e fundamental para decisoes informadas.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">SQL generation, read-only vs write, sanitization.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🚨</span> Tratamento de erros</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Como ferramentas comunicam erros ao agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Erros claros permitem ao agent recuperar-se.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Error messages, retry logic, fallback strategies.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔗</span> Composicao de ferramentas</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Ferramentas que usam outras ferramentas internamente.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Reduz complexidade visivel para o agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Abstraction layers, composite tools, encapsulation.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botoes -->
+        <div class="flex gap-3">
+          <button onclick="openModal('3')" class="flex-1 px-4 py-3 bg-purple-500/20 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-3-3.html" class="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 3.4 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden" data-module="4">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">3.4</div>
+            <div>
+              <h3 class="text-xl font-bold text-neutral-100">Casos de Uso Avancados</h3>
+              <p class="text-neutral-400 text-sm mt-1">Quando Workflow vira Agent e exemplos reais</p>
+            </div>
+          </div>
+          <svg class="check-icon w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+        <!-- Lista de Topicos -->
+        <div class="space-y-2 mb-4">
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔄</span> Quando Workflow vira Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Sinais de que um workflow precisa virar agent.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Reconhecer o momento certo de evoluir a arquitetura.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Etapas pulaveis, repeticoes variaveis, decisoes contextuais.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🎧</span> Agent de Suporte ao Cliente</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que responde duvidas consultando base de conhecimento.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Consultas variam - as vezes 0, as vezes 5 buscas.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">RAG dinamico, escalacao, satisfacao do cliente.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📢</span> Agent de Marketing no Telegram</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que cria e gerencia conteudo de marketing.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Requer criatividade e decisoes sobre formato/canal.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Content generation, image creation, scheduling, analytics.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔍</span> Agent de Pesquisa</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que pesquisa, analisa e sintetiza informacoes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Pesquisa aberta requer decisoes sobre fontes e profundidade.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Web search, source evaluation, synthesis, citations.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">💻</span> Agent de Codigo</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Agent que escreve, revisa e testa codigo.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Desenvolvimento requer iteracao e debugging.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Code generation, testing, refactoring, documentation.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🏆</span> Padroes de sucesso</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Praticas que levam a agents bem-sucedidos.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Aprender com experiencias de sucesso acelera resultados.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Clear goals, good tools, proper guardrails, monitoring.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">⚠️</span> Anti-padroes a evitar</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Erros comuns que sabotam agents.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Conhecer erros ajuda a evita-los.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Over-autonomy, poor tools, no guardrails, no logging.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📊</span> Metricas de sucesso</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Como medir se um agent esta funcionando bem.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Sem metricas, nao ha como melhorar.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Task completion rate, cost per task, user satisfaction.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botoes -->
+        <div class="flex gap-3">
+          <button onclick="openModal('4')" class="flex-1 px-4 py-3 bg-purple-500/20 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-3-4.html" class="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modulo 3.5 -->
+    <div class="module-card bg-dark-800 rounded-2xl mb-6 border border-dark-600 overflow-hidden" data-module="5">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg mr-4">3.5</div>
+            <div>
+              <h3 class="text-xl font-bold text-neutral-100">Orquestrando Sistemas Hibridos</h3>
+              <p class="text-neutral-400 text-sm mt-1">Combinando todas as camadas da piramide</p>
+            </div>
+          </div>
+          <svg class="check-icon w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+        <!-- Lista de Topicos -->
+        <div class="space-y-2 mb-4">
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🔗</span> Combinando GPT + Workflow</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Humano usa GPT e dispara workflows automatizados.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Combina julgamento humano com automacao eficiente.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Human-in-the-loop, trigger points, handoff design.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">⚡</span> Combinando Workflow + Agent</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Workflow chama agent quando precisa de autonomia.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Usa autonomia apenas onde necessario, reduz custos.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Conditional branching, agent as tool, result handling.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🏗️</span> Sistema multi-camada completo</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Arquitetura que usa todas as camadas integradas.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Maximiza eficiencia usando a camada certa para cada tarefa.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Layer selection, routing logic, fallback chains.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">👤</span> Human-in-the-loop</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Pontos onde humano revisa ou aprova decisoes.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Seguranca e qualidade em decisoes criticas.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Approval gates, escalation, confidence thresholds.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">📈</span> Escalacao inteligente</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Sistema decide quando escalar para humano ou camada superior.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Evita erros e melhora experiencia do usuario.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Escalation triggers, routing rules, SLA handling.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">💰</span> Custos e trade-offs</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Analise de custos de cada camada e combinacao.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Otimizar custo-beneficio e essencial para ROI.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Token costs, latency, complexity vs value.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🎯</span> Seja um resolvedor de problemas</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Principio-chave: foque no problema, nao na tecnologia.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">A melhor solucao pode ser a mais simples.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Problem-first thinking, simplicity, pragmatism.</span></div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <button onclick="toggleTopic(this)" class="w-full flex items-center justify-between p-3 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors text-left">
+              <span class="flex items-center gap-2"><span class="text-purple-400">🚀</span> Projeto final integrado</span>
+              <svg class="w-5 h-5 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="topic-explanation mt-2 ml-4 space-y-2">
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">O que e:</strong> <span class="text-neutral-300">Construa um sistema hibrido completo como projeto final.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Por que:</strong> <span class="text-neutral-300">Aplicar todo o conhecimento em um projeto real.</span></div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border-l-4 border-purple-500"><strong class="text-purple-400">Conceitos:</strong> <span class="text-neutral-300">Full integration, deployment, monitoring, iteration.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botoes -->
+        <div class="flex gap-3">
+          <button onclick="openModal('5')" class="flex-1 px-4 py-3 bg-purple-500/20 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 transition-colors flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            Ver em Modal
+          </button>
+          <a href="modulo-3-5.html" class="flex-1 px-4 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center">
+            Pagina Completa
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-700">
+      <a href="../trilha2-implementacao/index.html" class="flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Trilha Anterior: Implementacao
+      </a>
+      <a href="../index.html" class="flex items-center px-6 py-3 bg-primary text-dark-900 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+        Voltar ao Inicio
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Modal com iframe -->
+  <div id="module-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title" class="text-xl font-bold text-purple-400">Carregando...</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="modal-iframe" src=""></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Trilha 3: Maestria</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      themeToggleDarkIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.add('dark');
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // Topic toggle function
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const icon = button.querySelector('svg');
+
+      // Close other explanations in same module
+      const moduleCard = button.closest('.module-card');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+          exp.closest('.topic-item').querySelector('button svg').classList.remove('rotate-180');
+        }
+      });
+
+      explanation.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+    }
+
+    // Modal functions
+    const moduleTitles = {
+      '1': 'AI Agents: Quando e Por Que',
+      '2': 'Arquitetura de AI Agents',
+      '3': 'Ferramentas e Integracoes para Agents',
+      '4': 'Casos de Uso Avancados',
+      '5': 'Orquestrando Sistemas Hibridos'
+    };
+
+    function openModal(moduleNum) {
+      const modal = document.getElementById('module-modal');
+      const iframe = document.getElementById('modal-iframe');
+      const title = document.getElementById('modal-title');
+
+      title.textContent = 'Modulo 3.' + moduleNum + ': ' + moduleTitles[moduleNum];
+      iframe.src = 'modulo-3-' + moduleNum + '.html';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('module-modal');
+      const iframe = document.getElementById('modal-iframe');
+      modal.classList.remove('active');
+      iframe.src = '';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal on background click
+    document.getElementById('module-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Progress tracking
+    const STORAGE_KEY = 'trilha3-progress';
+    let progress = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+    function updateProgressUI() {
+      const completed = Object.values(progress).filter(v => v).length;
+      const percent = Math.round((completed / 5) * 100);
+      document.getElementById('progress-percent').textContent = percent;
+      document.getElementById('progress-bar').style.width = percent + '%';
+      document.getElementById('modules-completed').textContent = completed;
+
+      document.querySelectorAll('.module-card').forEach(card => {
+        const moduleNum = card.getAttribute('data-module');
+        if (progress[moduleNum]) {
+          card.classList.add('completed');
+        }
+      });
+    }
+
+    document.querySelectorAll('.module-card a').forEach(link => {
+      link.addEventListener('click', function() {
+        const card = this.closest('.module-card');
+        const moduleNum = card.getAttribute('data-module');
+        progress[moduleNum] = true;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      });
+    });
+
+    updateProgressUI();
+  </script>
+</body>
+</html>

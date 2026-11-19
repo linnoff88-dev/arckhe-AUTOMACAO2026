@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 1.1: A Filosofia do Resolvedor | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #CDDC39, #E040FB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="../trilha2-implementacao/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-blue-400 hover:border-blue-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-emerald-400 font-semibold text-sm">1.1</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 1.1 - FUNDAMENTOS
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">A Filosofia do Resolvedor de Problemas</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Mude sua mentalidade de "construir agentes" para "resolver problemas de forma eficiente"
+      </p>
+    </div>
+
+    <!-- Imagem Principal -->
+    <section class="mb-12">
+      <div class="rounded-2xl overflow-hidden border border-dark-600">
+        <img src="../assets/images/piramide-colorida.png" alt="AI Agents nao sao a resposta - Piramide de Automacao" class="w-full h-auto">
+      </div>
+      <p class="text-center text-neutral-500 text-sm mt-3">A Piramide dos Sistemas de IA - Do mais simples ao mais complexo</p>
+    </section>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-emerald-400">3</div>
+        <div class="text-xs text-neutral-400">Perguntas-chave</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-emerald-400">50%</div>
+        <div class="text-xs text-neutral-400">Regra de Ouro</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-emerald-400">4</div>
+        <div class="text-xs text-neutral-400">Camadas da Piramide</div>
+      </div>
+    </div>
+
+    <!-- Conteudo Principal -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl p-8 border border-emerald-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">💡</span>
+          <div>
+            <h2 class="text-2xl font-bold text-emerald-400">A Ideia Central</h2>
+            <p class="text-neutral-400">O erro mais comum na implementacao de IA</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          AI Agents estao sendo usados em <strong class="text-emerald-400">excesso</strong> e, muitas vezes, <strong class="text-red-400">nao sao a melhor solucao</strong>. O foco deve ser resolver problemas de forma eficiente, escolhendo o nivel certo de complexidade, e nao "construir agentes por construir".
+        </p>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          O modelo propoe uma <strong class="text-emerald-400">piramide com 4 camadas</strong> de sistemas de IA, indo do mais simples ao mais complexo. A chave e escolher a camada certa para cada problema.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <p class="text-neutral-200 text-lg font-semibold mb-4">O principio fundamental:</p>
+          <blockquote class="border-l-4 border-emerald-500 pl-4 italic text-neutral-300">
+            "Transitar de um 'Construtor de Agentes de IA' para um 'Resolvedor de Problemas' escolhendo a solucao mais eficiente, economica e simples para cada tarefa."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 Perguntas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🔍</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Antes de Construir, Pergunte</h2>
+            <p class="text-neutral-400">As 3 perguntas essenciais</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">1</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-emerald-400 mb-2">Qual e a raiz do problema?</h3>
+              <p class="text-neutral-300">Entenda o problema real antes de pensar em solucoes. Muitas vezes o problema nao e o que parece a principio. Investigue, questione, valide.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">2</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-emerald-400 mb-2">Qual e a solucao mais eficiente?</h3>
+              <p class="text-neutral-300">Nem sempre a mais complexa e a melhor. A solucao mais simples que resolve o problema e geralmente a correta. Menos e mais.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">3</div>
+            <div class="bg-dark-700/50 rounded-xl p-5 flex-1">
+              <h3 class="text-xl font-bold text-emerald-400 mb-2">Como manter os custos baixos e a complexidade simples?</h3>
+              <p class="text-neutral-300">Simplicidade e manutencao sao fundamentais. Sistemas complexos custam mais, quebram mais e sao mais dificeis de manter.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fluxo de Decisao Visual -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🗺️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">O Que Construir?</h2>
+            <p class="text-neutral-400">Fluxo de decisao baseado no problema</p>
+          </div>
+        </div>
+
+        <div class="rounded-xl overflow-hidden mb-6">
+          <img src="../assets/images/o-que-construir.png" alt="Fluxo de decisao - O que construir baseado no problema" class="w-full h-auto">
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">Como usar este fluxo:</h4>
+          <ol class="space-y-3 text-neutral-300">
+            <li class="flex items-start">
+              <span class="text-emerald-400 font-bold mr-3">1.</span>
+              <span><strong>Preciso estar no loop toda vez?</strong> Sim → Custom GPT. Nao → proxima pergunta.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-emerald-400 font-bold mr-3">2.</span>
+              <span><strong>Os passos sao 100% baseados em logica fixa?</strong> Sim → Automacao simples. Nao → proxima pergunta.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-emerald-400 font-bold mr-3">3.</span>
+              <span><strong>A ordem das operacoes e fixa e previsivel?</strong> Sim → AI Workflow. Nao → AI Agent.</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Regra dos 50% -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 rounded-2xl p-8 border border-yellow-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">⚠️</span>
+          <div>
+            <h2 class="text-2xl font-bold text-yellow-400">A Regra dos 50%</h2>
+            <p class="text-neutral-400">Um insight crucial que muda tudo</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-xl p-6 mb-6">
+          <p class="text-2xl font-bold text-center text-yellow-400 mb-4">
+            Metade dos problemas pode ser resolvida SEM IA!
+          </p>
+          <p class="text-neutral-300 text-center">
+            Cerca de 50% das automacoes em empresas nao precisam de inteligencia artificial. Antes de implementar IA, verifique se uma automacao simples resolve. Muitas vezes, um simples if/then e tudo que voce precisa.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-red-900/20 p-6 rounded-xl border border-red-500/30">
+            <h4 class="font-bold text-red-400 mb-4">✗ Regra dos Tokens Desperdicados</h4>
+            <p class="text-neutral-300 text-sm">Nao use agentes para processos lineares! Voce estara desperdicando tokens (e dinheiro) em algo que pode ser feito de forma mais simples e previsivel.</p>
+          </div>
+          <div class="bg-emerald-900/20 p-6 rounded-xl border border-emerald-500/30">
+            <h4 class="font-bold text-emerald-400 mb-4">✓ Escale com o Tempo</h4>
+            <p class="text-neutral-300 text-sm">Comece simples! Muitas vezes voce comeca com uma solucao simples e escala para algo mais complexo depois (ou o contrario). Nao existe resposta universal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparacao -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <h2 class="text-2xl font-bold text-neutral-100 mb-6 text-center">Duas Mentalidades</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-red-900/20 p-6 rounded-xl border border-red-500/30">
+            <div class="text-center mb-4">
+              <span class="text-4xl">🤖</span>
+              <h3 class="text-xl font-bold text-red-400 mt-2">Construtor de Agentes</h3>
+            </div>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">✗</span>
+                <span>Quer usar IA em tudo</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">✗</span>
+                <span>Comeca pelo mais complexo</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">✗</span>
+                <span>Ignora custos e manutencao</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">✗</span>
+                <span>Foco na tecnologia, nao no problema</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-red-400 mr-2">✗</span>
+                <span>Overengineering constante</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-emerald-900/20 p-6 rounded-xl border border-emerald-500/30">
+            <div class="text-center mb-4">
+              <span class="text-4xl">🎯</span>
+              <h3 class="text-xl font-bold text-emerald-400 mt-2">Resolvedor de Problemas</h3>
+            </div>
+            <ul class="space-y-3 text-neutral-300">
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Escolhe a ferramenta certa</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Comeca simples</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Prioriza eficiencia e ROI</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Foco no problema, nao na tecnologia</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Escala conforme necessario</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mensagem Final -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🎯</span>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Mensagem Final</h2>
+            <p class="text-neutral-400">O que voce deve levar deste modulo</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 text-neutral-300">
+          <p><strong class="text-emerald-400">Nao existe resposta universal.</strong> O melhor sistema depende do problema real, de como o processo humano funciona, e do custo, manutencao e escala desejados.</p>
+
+          <p>Muitas vezes voce comeca simples e escala para algo mais complexo depois — ou o contrario. A flexibilidade e a chave.</p>
+
+          <p>O melhor sistema depende de:</p>
+          <ul class="list-disc list-inside ml-4 space-y-2">
+            <li>Do problema real que voce esta resolvendo</li>
+            <li>De como o processo humano funciona atualmente</li>
+            <li>Do custo, manutencao e escala desejados</li>
+            <li>Da equipe que vai manter a solucao</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold text-primary mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-emerald-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">O excesso de engenharia e o erro mais comum na implementacao de IA</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-emerald-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Antes de construir, faca as 3 perguntas essenciais</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-emerald-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">50% dos problemas podem ser resolvidos SEM IA</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-emerald-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Use o fluxo de decisao para escolher a camada certa</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-emerald-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Comece simples e escale com o tempo</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Principio-chave</p>
+          <p class="text-xl text-neutral-200">"Seja um resolvedor de problemas, nao um construtor de AI Agents."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="index.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Voltar para Trilha
+      </a>
+      <a href="modulo-1-2.html" class="flex items-center px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+        Proximo: A Piramide
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 1.1: A Filosofia do Resolvedor</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>

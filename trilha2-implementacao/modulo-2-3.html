@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo 2.3: Construindo seu Primeiro AI Workflow | Automacao 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#CDDC39',
+            accent: '#E040FB',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #f8fafc !important; }
+    html:not(.dark) .bg-dark-800 { background-color: #ffffff !important; }
+    html:not(.dark) .bg-dark-700 { background-color: #f1f5f9 !important; }
+    html:not(.dark) .border-dark-600 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .border-dark-700 { border-color: #e2e8f0 !important; }
+    html:not(.dark) .text-neutral-100 { color: #1e293b !important; }
+    html:not(.dark) .text-neutral-200 { color: #334155 !important; }
+    html:not(.dark) .text-neutral-300 { color: #475569 !important; }
+    html:not(.dark) .text-neutral-400 { color: #64748b !important; }
+    pre { background: #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; }
+    code { font-family: 'Monaco', 'Consolas', monospace; font-size: 0.875rem; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo -->
+        <a href="../index.html" class="text-lg sm:text-xl font-bold gradient-text">AUTOMACAO 2026</a>
+
+        <!-- Trilhas -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="../trilha1-fundamentos/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-emerald-400 hover:border-emerald-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>📚</span>
+            <span class="hidden sm:inline">Trilha 1</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-400 font-semibold text-xs sm:text-sm transition-all">
+            <span>🔧</span>
+            <span class="hidden sm:inline">Trilha 2</span>
+          </a>
+          <a href="../trilha3-maestria/index.html" class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-dark-700 border-2 border-transparent text-neutral-400 hover:text-purple-400 hover:border-purple-500/50 font-medium text-xs sm:text-sm transition-all">
+            <span>🚀</span>
+            <span class="hidden sm:inline">Trilha 3</span>
+          </a>
+        </div>
+
+        <!-- Modulo -->
+        <span class="text-blue-400 font-semibold text-sm">2.3</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold mb-4">
+        MODULO 2.3 - IMPLEMENTACAO
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Construindo seu Primeiro AI Workflow</h1>
+      <p class="text-xl text-neutral-400 max-w-2xl mx-auto">
+        Passo a passo pratico: do trigger a acao final - maos na massa!
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">8</div>
+        <div class="text-xs text-neutral-400">Passos do Tutorial</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">n8n</div>
+        <div class="text-xs text-neutral-400">Ferramenta Base</div>
+      </div>
+      <div class="bg-dark-800 rounded-xl p-4 text-center border border-dark-600">
+        <div class="text-2xl font-bold text-blue-400">Real</div>
+        <div class="text-xs text-neutral-400">Caso de Uso</div>
+      </div>
+    </div>
+
+    <!-- Objetivo -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl p-8 border border-blue-500/30">
+        <div class="flex items-center mb-6">
+          <span class="text-4xl mr-4">🎯</span>
+          <div>
+            <h2 class="text-2xl font-bold text-blue-400">O Que Vamos Construir</h2>
+            <p class="text-neutral-400">Classificador de e-mails de suporte</p>
+          </div>
+        </div>
+
+        <p class="text-lg text-neutral-300 mb-6">
+          Vamos criar um workflow completo que recebe e-mails, usa IA para classificar em categorias, e roteia para as acoes corretas. Este e um caso de uso <strong class="text-blue-400">real e pratico</strong> que voce pode adaptar imediatamente.
+        </p>
+
+        <div class="bg-dark-700/50 rounded-xl p-6">
+          <h4 class="font-bold text-neutral-200 mb-4">Fluxo que vamos construir:</h4>
+          <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+            <span class="bg-blue-500 text-white px-3 py-2 rounded-lg font-semibold">Email chega</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-purple-500 text-white px-3 py-2 rounded-lg font-semibold">IA classifica</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-yellow-500 text-white px-3 py-2 rounded-lg font-semibold">Roteia</span>
+            <span class="text-neutral-500">→</span>
+            <span class="bg-emerald-500 text-white px-3 py-2 rounded-lg font-semibold">Acao Final</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 1: Definir Objetivo -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">1</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Definindo o Objetivo</h2>
+            <p class="text-neutral-400">Antes de construir, defina claramente</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-blue-400 mb-3">Nosso objetivo:</h4>
+          <p class="text-neutral-300 text-lg mb-4">
+            "Quando um e-mail chegar na caixa de suporte, quero que seja automaticamente classificado e enviado para a fila correta, com prioridade definida."
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-emerald-900/10 p-4 rounded-xl border border-emerald-500/20">
+            <h4 class="font-bold text-emerald-400 mb-2">Criterios de sucesso:</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Classificar em 5+ categorias</li>
+              <li>• Definir prioridade (alta/media/baixa)</li>
+              <li>• Processar em menos de 10 segundos</li>
+              <li>• Escalar para humano quando incerto</li>
+            </ul>
+          </div>
+          <div class="bg-yellow-900/10 p-4 rounded-xl border border-yellow-500/20">
+            <h4 class="font-bold text-yellow-400 mb-2">Fora do escopo (por enquanto):</h4>
+            <ul class="text-neutral-300 text-sm space-y-1">
+              <li>• Resposta automatica</li>
+              <li>• Analise de anexos</li>
+              <li>• Integracao com CRM</li>
+              <li>• Multiplos idiomas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 2: Trigger -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">2</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Configurando o Trigger</h2>
+            <p class="text-neutral-400">O evento que inicia tudo</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-blue-400 mb-3">Opcoes de Trigger:</h4>
+            <div class="grid md:grid-cols-2 gap-3">
+              <div class="bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/20">
+                <span class="text-emerald-400 font-semibold">Gmail/IMAP Trigger</span>
+                <p class="text-neutral-400 text-sm">Monitora caixa de entrada diretamente</p>
+              </div>
+              <div class="bg-blue-900/20 p-3 rounded-lg border border-blue-500/20">
+                <span class="text-blue-400 font-semibold">Webhook</span>
+                <p class="text-neutral-400 text-sm">Recebe via API do provedor de email</p>
+              </div>
+              <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/20">
+                <span class="text-purple-400 font-semibold">Formulario</span>
+                <p class="text-neutral-400 text-sm">Form de contato no site</p>
+              </div>
+              <div class="bg-yellow-900/20 p-3 rounded-lg border border-yellow-500/20">
+                <span class="text-yellow-400 font-semibold">Polling</span>
+                <p class="text-neutral-400 text-sm">Verifica periodicamente</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-5 mb-4">
+          <h4 class="font-bold text-neutral-200 mb-3">Configuracao no n8n (Gmail):</h4>
+          <pre class="text-sm"><code class="text-neutral-300">{
+  <span class="text-blue-400">"node"</span>: <span class="text-emerald-400">"Gmail Trigger"</span>,
+  <span class="text-blue-400">"operation"</span>: <span class="text-emerald-400">"Watch for new emails"</span>,
+  <span class="text-blue-400">"label"</span>: <span class="text-emerald-400">"inbox"</span>,
+  <span class="text-blue-400">"poll_interval"</span>: <span class="text-purple-400">60</span> <span class="text-neutral-500">// segundos</span>
+}</code></pre>
+        </div>
+
+        <div class="bg-yellow-900/20 rounded-xl p-4 border border-yellow-500/30">
+          <p class="text-yellow-400 font-semibold mb-1">Dica:</p>
+          <p class="text-neutral-300 text-sm">Para testes, use Webhook Trigger - permite enviar dados manualmente sem precisar de email real.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 3: Chamada de IA -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">3</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Integrando a Chamada de IA</h2>
+            <p class="text-neutral-400">Conectando com OpenAI/Claude</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-purple-400 mb-3">Configuracao da API:</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">1.</span>
+              <span>Adicione um node "HTTP Request" ou use o node nativo da OpenAI/Anthropic</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">2.</span>
+              <span>Configure sua API Key nas credenciais do n8n</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">3.</span>
+              <span>Escolha o modelo (recomendado: GPT-4o-mini ou Claude 3.5 Haiku para classificacao)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-4">
+            <h4 class="font-bold text-emerald-400 mb-2">Parametros recomendados:</h4>
+            <ul class="text-neutral-300 text-sm space-y-2">
+              <li><strong>Model:</strong> gpt-4o-mini</li>
+              <li><strong>Temperature:</strong> 0.1 (mais deterministico)</li>
+              <li><strong>Max tokens:</strong> 200 (resposta curta)</li>
+              <li><strong>Response format:</strong> JSON</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-4">
+            <h4 class="font-bold text-blue-400 mb-2">Custos estimados:</h4>
+            <ul class="text-neutral-300 text-sm space-y-2">
+              <li><strong>GPT-4o-mini:</strong> ~$0.0001/email</li>
+              <li><strong>Claude Haiku:</strong> ~$0.00008/email</li>
+              <li><strong>1000 emails/dia:</strong> ~$3/mes</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl p-4 border border-blue-500/30">
+          <p class="text-blue-400 font-semibold mb-1">Importante:</p>
+          <p class="text-neutral-300 text-sm">Nunca coloque API keys direto no workflow. Use as credenciais seguras do n8n ou variaveis de ambiente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 4: Prompt -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">4</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Escrevendo o Prompt</h2>
+            <p class="text-neutral-400">O coracao do seu workflow</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-6 mb-6 overflow-x-auto">
+          <h4 class="font-bold text-neutral-200 mb-3">Prompt completo para classificacao:</h4>
+          <pre class="text-sm"><code class="text-neutral-300">Voce e um classificador de e-mails de suporte para uma empresa SaaS.
+
+Analise o e-mail e classifique em UMA categoria:
+- <span class="text-blue-400">suporte_tecnico</span>: bugs, erros, problemas de acesso
+- <span class="text-purple-400">comercial</span>: precos, planos, upgrade, desconto
+- <span class="text-emerald-400">financeiro</span>: faturas, cobrancas, reembolso
+- <span class="text-yellow-400">cancelamento</span>: pedidos de cancelamento
+- <span class="text-red-400">reclamacao</span>: insatisfacao, ameaca de sair
+- <span class="text-neutral-400">outros</span>: nao se encaixa acima
+
+Defina prioridade:
+- <span class="text-red-400">alta</span>: cliente irritado, sistema fora do ar, urgente
+- <span class="text-yellow-400">media</span>: problema afeta trabalho, mas tem workaround
+- <span class="text-emerald-400">baixa</span>: duvida simples, sem urgencia
+
+Responda APENAS em JSON:
+{
+  "categoria": "string",
+  "prioridade": "string",
+  "confianca": 0.0-1.0,
+  "resumo": "1 frase descrevendo o problema"
+}
+
+ASSUNTO: {{ $json.subject }}
+REMETENTE: {{ $json.from }}
+CORPO:
+"""
+{{ $json.body }}
+"""</code></pre>
+        </div>
+
+        <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/30">
+          <p class="text-emerald-400 font-semibold mb-1">Variaveis do n8n:</p>
+          <p class="text-neutral-300 text-sm">Use <code class="bg-dark-700 px-1 rounded">{{ $json.campo }}</code> para acessar dados do email. Campos comuns: subject, from, body, date.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 5: Rotas -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">5</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Criando as Rotas Condicionais</h2>
+            <p class="text-neutral-400">Direcionando para as acoes corretas</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-yellow-400 mb-4">Estrutura de roteamento:</h4>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded mr-3 text-sm font-mono">Switch Node</span>
+              <span class="text-neutral-300">Roteia baseado na categoria</span>
+            </div>
+            <div class="ml-8 space-y-2">
+              <div class="flex items-center text-sm">
+                <span class="text-blue-400 mr-2">→</span>
+                <span class="text-neutral-300">suporte_tecnico → Fila Tecnica</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="text-purple-400 mr-2">→</span>
+                <span class="text-neutral-300">comercial → Fila Vendas</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="text-emerald-400 mr-2">→</span>
+                <span class="text-neutral-300">financeiro → Fila Financeiro</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="text-red-400 mr-2">→</span>
+                <span class="text-neutral-300">cancelamento/reclamacao → Fila Retencao (prioridade alta)</span>
+              </div>
+              <div class="flex items-center text-sm">
+                <span class="text-neutral-400 mr-2">→</span>
+                <span class="text-neutral-300">outros → Fila Geral</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-5 mb-4">
+          <h4 class="font-bold text-neutral-200 mb-3">Configuracao do Switch no n8n:</h4>
+          <pre class="text-sm"><code class="text-neutral-300">{
+  <span class="text-blue-400">"node"</span>: <span class="text-emerald-400">"Switch"</span>,
+  <span class="text-blue-400">"rules"</span>: [
+    { <span class="text-blue-400">"value"</span>: <span class="text-emerald-400">"{{ $json.categoria }}"</span>,
+      <span class="text-blue-400">"operation"</span>: <span class="text-emerald-400">"equals"</span>,
+      <span class="text-blue-400">"output"</span>: <span class="text-purple-400">0</span> },
+    <span class="text-neutral-500">// ... mais regras</span>
+  ],
+  <span class="text-blue-400">"fallback"</span>: <span class="text-emerald-400">"last"</span>
+}</code></pre>
+        </div>
+
+        <div class="bg-red-900/20 rounded-xl p-4 border border-red-500/30">
+          <p class="text-red-400 font-semibold mb-1">Nao esqueca:</p>
+          <p class="text-neutral-300 text-sm">Adicione uma rota para <strong>confianca baixa</strong> (ex: &lt;0.7). Esses casos devem ir para revisao humana.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 6: Acoes -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">6</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Configurando as Acoes Finais</h2>
+            <p class="text-neutral-400">O que acontece no final de cada rota</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-emerald-400 mb-3">Acoes comuns:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Criar ticket no Zendesk/Freshdesk</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Enviar notificacao Slack</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Adicionar label no email</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Salvar em planilha/Airtable</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Enviar para fila no Trello/Asana</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-blue-400 mb-3">Dados a incluir:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Email original (subject, body, from)</li>
+              <li>• Categoria classificada</li>
+              <li>• Prioridade definida</li>
+              <li>• Resumo gerado pela IA</li>
+              <li>• Score de confianca</li>
+              <li>• Timestamp de processamento</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-xl p-5">
+          <h4 class="font-bold text-neutral-200 mb-3">Exemplo: Notificacao Slack</h4>
+          <pre class="text-sm"><code class="text-neutral-300">{
+  <span class="text-blue-400">"channel"</span>: <span class="text-emerald-400">"#suporte-{{ $json.categoria }}"</span>,
+  <span class="text-blue-400">"text"</span>: <span class="text-emerald-400">"Novo ticket [{{ $json.prioridade }}]"</span>,
+  <span class="text-blue-400">"blocks"</span>: [
+    {
+      <span class="text-blue-400">"type"</span>: <span class="text-emerald-400">"section"</span>,
+      <span class="text-blue-400">"text"</span>: <span class="text-emerald-400">"*{{ $json.subject }}*\n{{ $json.resumo }}"</span>
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 7: Testes -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">7</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Testando e Validando</h2>
+            <p class="text-neutral-400">Antes de colocar em producao</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-700/50 rounded-xl p-6 mb-6">
+          <h4 class="font-bold text-orange-400 mb-4">Checklist de testes:</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar cada categoria (minimo 3 exemplos)</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar emails ambiguos</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar emails muito longos</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar emails muito curtos</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Verificar JSON sempre valido</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar fallback (categoria "outros")</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Verificar rota de confianca baixa</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-dark-600 rounded border border-dark-500 mr-3 flex items-center justify-center text-xs">□</span>
+                <span class="text-neutral-300 text-sm">Testar tratamento de erros</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-emerald-900/20 rounded-xl p-4 border border-emerald-500/30">
+          <p class="text-emerald-400 font-semibold mb-1">Dica de teste:</p>
+          <p class="text-neutral-300 text-sm">Use o "Execute Workflow" do n8n com dados de teste antes de ativar o trigger real. Isso permite debugar passo a passo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 8: Deploy -->
+    <section class="mb-12">
+      <div class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">8</div>
+          <div>
+            <h2 class="text-2xl font-bold text-neutral-100">Deploy e Monitoramento Inicial</h2>
+            <p class="text-neutral-400">Colocando em producao</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-emerald-400 mb-3">Antes de ativar:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Configurar alertas de erro</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Definir limite de execucoes</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Verificar credenciais em producao</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-emerald-400 mr-2">✓</span>
+                <span>Documentar o workflow</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-dark-700/50 rounded-xl p-5">
+            <h4 class="font-bold text-blue-400 mb-3">Primeiros dias:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>Monitore taxa de erro</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>Revise classificacoes manualmente</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>Colete feedback da equipe</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-400 mr-2">•</span>
+                <span>Ajuste prompt conforme necessario</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-yellow-900/20 rounded-xl p-4 border border-yellow-500/30">
+          <p class="text-yellow-400 font-semibold mb-1">Expectativa realista:</p>
+          <p class="text-neutral-300 text-sm">Nos primeiros dias, espere precisao de ~80%. Com ajustes de prompt e mais exemplos, voce pode chegar a 95%+ em algumas semanas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-2xl p-8 border border-primary/30">
+        <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Resumo do Modulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Defina objetivo claro e criterios de sucesso antes de construir</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Configure trigger apropriado (Gmail, Webhook, ou IMAP)</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Integre API de IA com parametros otimizados (temperatura baixa, JSON)</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Crie rotas condicionais incluindo fallback para confianca baixa</span>
+          </div>
+          <div class="flex items-center bg-dark-800/50 p-4 rounded-lg">
+            <span class="text-blue-400 mr-3 text-xl">✓</span>
+            <span class="text-neutral-200">Teste extensivamente antes de produzir, monitore apos deploy</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 text-center">
+          <p class="text-2xl font-bold gradient-text mb-2">Proximo Passo</p>
+          <p class="text-xl text-neutral-200">Aprenda a rotear e criar acoes avancadas!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegacao -->
+    <div class="flex justify-between items-center pt-8 border-t border-dark-700">
+      <a href="modulo-2-2.html" class="flex items-center text-neutral-400 hover:text-primary transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Anterior: Classificacao
+      </a>
+      <a href="modulo-2-4.html" class="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+        Proximo: Roteamento
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 border-t border-dark-700 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Automacao 2026 - Modulo 2.3: Construindo seu Primeiro AI Workflow</p>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem('color-theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</body>
+</html>
